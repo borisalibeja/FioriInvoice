@@ -128,11 +128,12 @@ sap.ui.define([
         _getRequiredFields: function () {
             const oView = this.getView();
             return [
-                oView.byId("_IDGenInput9"),  // First Name
-                oView.byId("_IDGenInput10"), // Last Name
-                oView.byId("_IDGenInput11"), // Tax Number 1
-                oView.byId("_IDGenInput13"), // Email
-                oView.byId("_IDGenInput16")  // Telephone Number
+                oView.byId("_IDGenInput25"),  // Date 
+                oView.byId("_IDGenInput26"), // Customer Name
+                oView.byId("_IDGenInput12"), // 1st Product
+                oView.byId("_IDGenInput17"), // Net Value
+                oView.byId("_IDGenInput18"), // Vat value
+                oView.byId("_IDGenInput20")  // Currency
             ];
         },
 
