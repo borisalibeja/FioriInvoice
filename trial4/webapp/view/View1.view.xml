@@ -19,24 +19,25 @@
 
 				<!-- Language selection buttons on the right -->
 				<m:contentRight>
-					<m:Button id="buttonEnglish" text="English" press="onLanguageSelect">
+					<m:Button id="buttonEnglish" text="{i18n>English}" press="onLanguageSelect">
 						<m:customData>
 							<core:CustomData key="langCode" value="en" />
 						</m:customData>
 					</m:Button>
 
-					<m:Button id="buttonItalian" text="Italian" press="onLanguageSelect">
+					<m:Button id="buttonItalian" text="{i18n>Italian}" press="onLanguageSelect">
 						<m:customData>
 							<core:CustomData key="langCode" value="it" />
 						</m:customData>
 					</m:Button>
 
-					<m:Button id="buttonAlbanian" text="Albanian" press="onLanguageSelect">
+					<m:Button id="buttonAlbanian" text="{i18n>Albanian}" press="onLanguageSelect">
 						<m:customData>
 							<core:CustomData key="langCode" value="al" />
 						</m:customData>
 					</m:Button>
 				</m:contentRight>
+				
 			</m:Bar>
 		</m:customHeader>
 
@@ -57,9 +58,9 @@
 				<m:ToolbarSpacer id="_IDGenToolbarSpacer2" />
 
 				<!-- Buttons in the center -->
-				<m:Button id="addRecordButton" icon="sap-icon://add" text="Add Record" press="onAddRecord" />
-				<m:Button id="editRecordButton" icon="sap-icon://edit" text="Edit Record" press="onEditRecord" />
-				<m:Button id="deleteRecordButton" icon="sap-icon://delete" text="Delete Record" press="onDeleteRecord" />
+				<m:Button id="addRecordButton" icon="sap-icon://add" text="{i18n>AddInvoice}" press="onAddRecord" />
+				<m:Button id="editRecordButton" icon="sap-icon://edit" text="{i18n>EditInvoice}" press="onEditRecord" />
+				<m:Button id="deleteRecordButton" icon="sap-icon://delete" text="{i18n>DeleteInvoice}" press="onDeleteRecord" />
 
 				<!-- Spacer to ensure elements stay centered -->
 				
@@ -132,15 +133,15 @@
 
 				</columns>
                 <Column id="_IDGendetails" width="9rem">
-					<m:Label id="_IDGendetailslabel" text="Details" />
+					<m:Label id="_IDGendetailslabel" text="{i18n>Details}" />
 					<template>
-						<m:Button id="_IDGenButton" text="Show Details" press="handleDetailsPress"/>
+						<m:Button id="_IDGenButton" text="{i18n>ShowDetails}" press="handleDetailsPress"/>
 					</template>
 				</Column>
 			</Table>
 
             	<!-- change view button -->
-			<m:Button id="_IDGenButton1" text="Go to the second view"
+			<m:Button id="_IDGenButton1" text="{i18n>GenerateChart}"
 				press="onPress">
 				<m:layoutData>
 					<m:FlexItemData id="_IDGenFlexItemData" growFactor="1" />

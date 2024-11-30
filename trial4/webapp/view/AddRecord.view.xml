@@ -7,7 +7,7 @@
     xmlns:core="sap.ui.core"
     xmlns:m="sap.m">
     
-    <m:Page id="AddRecord" title="New Invoice">
+    <m:Page id="AddRecord" title="{i18n>NewInvoice}">
         <m:content>
             <m:Text id="_IDGenText65" text=" " width="30px" />
             
@@ -46,8 +46,8 @@
             </m:HBox>
             
             <m:Toolbar id="_IDGenToolbar" width="150px">
-                <m:Button id="_IDGenButton2" text="Save" press="onSave" />
-                <m:Button id="_IDGenButton3" text="Cancel" press="onCancel" />
+                <m:Button id="_IDGenButton2" text="{i18n>Save}" press="onSave" />
+                <m:Button id="_IDGenButton3" text="{i18n>Cancel}" press="onCancel" />
             </m:Toolbar>
         </m:content>
     </m:Page>

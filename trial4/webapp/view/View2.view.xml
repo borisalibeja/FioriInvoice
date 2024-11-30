@@ -8,11 +8,11 @@
 	xmlns:m="sap.m" >
 
 
-    <m:Page id="view2" title="{i18n>title}">
+    <m:Page id="view2" title="{i18n>ChartTitle}">
 
         <m:content>
 
-			<m:Button id="fakebutton" text="Go Back"
+			<m:Button id="fakebutton" text="{i18n>GoBack}"
 				press="onPress">
 				<m:layoutData>
 					<m:FlexItemData id="fakebutton2" growFactor="1" />

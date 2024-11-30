@@ -9,8 +9,7 @@
     xmlns:l="sap.ui.layout">
 
     <m:Page id="details" title="{i18n>tableName}">
-                <!-- Go Back Button -->
-        <m:Button id="_IDGenButton20" text="{i18n>Go Back}" press="onPress" />
+
         <m:content>
         
             <!-- Profile Details -->
@@ -96,5 +95,7 @@
             </m:FlexBox>
 
         </m:content>
+        <!-- Go Back Button -->
+        <m:Button id="_IDGenButton20" text="{i18n>GoBack}" press="onPress" />
     </m:Page>
 </mvc:View>

@@ -7,7 +7,7 @@
     xmlns:core="sap.ui.core"
     xmlns:m="sap.m">
     
-    <m:Page id="EditRecord" title="Edit Invoice">
+    <m:Page id="EditRecord" title="{i18n>EditInvoice}">
         <m:content>
             <m:VBox id="_IDGenVBox2" class="sapUiMediumMarginBegin">
 
@@ -42,8 +42,8 @@
 
                 <!-- Save and Cancel Buttons -->
                 <m:Toolbar id="_IDGenToolbar1" width="200px">
-                    <m:Button id="_IDGenButton6" text="Save" press="onSaveChanges" />
-                    <m:Button id="_IDGenButton7" text="Cancel" press="onCancel" />
+                    <m:Button id="_IDGenButton6" text="{i18n>Save}" press="onSaveChanges" />
+                    <m:Button id="_IDGenButton7" text="{i18n>Cancel}" press="onCancel" />
                 </m:Toolbar>
             </m:VBox>
 

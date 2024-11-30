@@ -66,20 +66,25 @@ sap.ui.define([
                 };
             });
 
-            const sMessage = "Are you sure you want to delete the following records?\n\n" +
-                aSelectedRows.map(record => `- ${record.CustomerName} (Invoice No: ${record.Invno})`).join("\n");
-
-            MessageBox.confirm(sMessage, {
-                actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-                onClose: (oAction) => {
-                    if (oAction === MessageBox.Action.YES) {
-                        const aInvnoValues = aSelectedRows.map(row => row.Invno);
-                        this._deleteRecords(aInvnoValues, () => {
-                            sap.ui.getCore().getEventBus().publish("dataChannel", "dataUpdated");
-                        });
+            const oResourceModel = sap.ui.getCore().getModel("i18n");
+            if (oResourceModel) {
+                const oResourceBundle = oResourceModel.getResourceBundle();
+                const sDeleteMessage = oResourceBundle.getText("DeleteAskingMessage");
+                const sMessage = `${sDeleteMessage}\n\n` +
+                    aSelectedRows.map(record => `- ${record.CustomerName} (${oResourceBundle.getText("Invno")}: ${record.Invno})`).join("\n");
+            
+                MessageBox.confirm(sMessage, {
+                    actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                    onClose: (oAction) => {
+                        if (oAction === MessageBox.Action.YES) {
+                            const aInvnoValues = aSelectedRows.map(row => row.Invno);
+                            this._deleteRecords(aInvnoValues, () => {
+                                sap.ui.getCore().getEventBus().publish("dataChannel", "dataUpdated");
+                            });
+                        }
                     }
-                }
-            });
+                });
+            }
         },
 
         /**
