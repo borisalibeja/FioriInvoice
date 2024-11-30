@@ -14,6 +14,20 @@ sap.ui.define([
 
     return Controller.extend("trial4.controller.AddRecord", {
 
+        onInit: function () {
+            // Attach route pattern matched to update the i18n model dynamically
+            this.getOwnerComponent().getRouter()
+                .getRoute("RouteAddRecord") // Replace with the correct route name for this view
+                .attachPatternMatched(this._onRouteMatched, this);
+        },
+        _onRouteMatched: function () {
+            // Refresh the i18n model when this route is matched
+            let oResourceModel = sap.ui.getCore().getModel("i18n");
+            if (oResourceModel) {
+                this.getView().setModel(oResourceModel, "i18n");
+            }
+        },
+
         /**
          * Handles the save operation for adding a new record.
          * Validates input fields, retrieves the CSRF token, and sends a POST request.

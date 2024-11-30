@@ -33,6 +33,13 @@ sap.ui.define([
          */
         _onObjectMatched: function (oEvent) {
             this.sInvno = oEvent.getParameter("arguments").Invno;
+
+            // Refresh the i18n model for this view
+            const oResourceModel = sap.ui.getCore().getModel("i18n");
+            if (oResourceModel) {
+                this.getView().setModel(oResourceModel, "i18n");
+            }
+
             this._fetchRecordData(this.sInvno);
         },
 

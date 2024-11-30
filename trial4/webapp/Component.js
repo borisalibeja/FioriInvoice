@@ -24,6 +24,15 @@ sap.ui.define([
                 // call the base component's init function
                 UIComponent.prototype.init.apply(this, arguments);
 
+                // Retrieve stored language or default to English
+                let sLanguageCode = localStorage.getItem("selectedLanguage") || "en";
+
+                // Set the i18n model globally
+                let oResourceModel = new sap.ui.model.resource.ResourceModel({
+                    bundleName: "trial4.i18n.i18n",
+                    bundleLocale: sLanguageCode
+                });
+                sap.ui.getCore().setModel(oResourceModel, "i18n");
                 // enable routing
                 this.getRouter().initialize();
 

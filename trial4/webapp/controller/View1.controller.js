@@ -25,6 +25,7 @@ sap.ui.define([
         onInit: function () {
             this._callToDB(); // Load initial data
             sap.ui.getCore().getEventBus().subscribe("dataChannel", "dataUpdated", this._onDataUpdated, this);
+
         },
 
         /**
@@ -167,15 +168,25 @@ sap.ui.define([
          * @param {sap.ui.base.Event} oEvent - Event containing the selected language.
          */
         onLanguageSelect: function (oEvent) {
-            const sLanguageCode = oEvent.getSource().getCustomData()[0].getValue();
-            const oResourceModel = new sap.ui.model.resource.ResourceModel({
+            // Get the selected language code from the button's custom data
+            let sLanguageCode = oEvent.getSource().getCustomData()[0].getValue();
+
+            // Create a new i18n ResourceModel with the selected language
+            let oResourceModel = new sap.ui.model.resource.ResourceModel({
                 bundleName: "trial4.i18n.i18n",
                 bundleLocale: sLanguageCode
             });
 
-            this.getView().setModel(oResourceModel, "i18n");
+            // Set the i18n model globally for all views
             sap.ui.getCore().setModel(oResourceModel, "i18n");
-            this.getView().rerender();
+
+            // Optional: Save the selected language to localStorage for persistence
+            localStorage.setItem("selectedLanguage", sLanguageCode);
+
+            // Update the language for the current view (binding updates automatically)
+            this.getView().setModel(oResourceModel, "i18n");
+
+
         },
 
         /**
