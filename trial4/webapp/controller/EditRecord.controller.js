@@ -27,25 +27,25 @@ sap.ui.define([
 
         /**
          * Handles the route pattern-matched event when navigating to the edit record view.
-         * Fetches record data for the specified `Kunnr`.
+         * Fetches record data for the specified `Invno`.
          * @private
          * @param {sap.ui.base.Event} oEvent - Event triggered when the route pattern matches.
          */
         _onObjectMatched: function (oEvent) {
-            this.sKunnr = oEvent.getParameter("arguments").Kunnr;
-            this._fetchRecordData(this.sKunnr);
+            this.sInvno = oEvent.getParameter("arguments").Invno;
+            this._fetchRecordData(this.sInvno);
         },
 
         /**
-         * Fetches record data for a specific `Kunnr` and sets it to the view's model.
+         * Fetches record data for a specific `Invno` and sets it to the view's model.
          * @private
-         * @param {string} sKunnr - Customer ID for the record to fetch.
+         * @param {string} sInvno - Customer ID for the record to fetch.
          */
-        _fetchRecordData: function (sKunnr) {
+        _fetchRecordData: function (sInvno) {
             const appModulePath = this._getAppModulePath();
 
             $.ajax({
-                url: `${appModulePath}/odata/sap/opu/odata/sap/ZBA_TEST_PROJECT_SRV/zba_testSet(Kunnr='${sKunnr}')`,
+                url: `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet(Invno='${sInvno}')`,
                 type: "GET",
                 dataType: "json",
                 success: (data) => {
@@ -53,7 +53,7 @@ sap.ui.define([
                         const oModel = new JSONModel(data.d);
                         this.getView().setModel(oModel, "recordModel");
                     } else {
-                        MessageBox.error("No data found for the specified Kunnr.");
+                        MessageBox.error("No data found for the specified Invno.");
                     }
                 },
                 error: (err) => {
@@ -85,7 +85,7 @@ sap.ui.define([
             const appModulePath = this._getAppModulePath();
 
             $.ajax({
-                url: `${appModulePath}/odata/sap/opu/odata/sap/ZBA_TEST_PROJECT_SRV/zba_testSet(Kunnr='${this.sKunnr}')`,
+                url: `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet(Invno='${this.sInvno}')`,
                 type: "PUT",
                 contentType: "application/json",
                 headers: { "X-CSRF-Token": csrfToken },

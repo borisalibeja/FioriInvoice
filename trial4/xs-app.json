@@ -6,7 +6,7 @@
       "source": "^/odata/(.*)$",
       "target": "$1",
       "authenticationType": "xsuaa",
-      "destination": "academytrial_CLONING",
+      "destination": "invoiceDest_CLONING",
       "csrfProtection": false
     },
     {

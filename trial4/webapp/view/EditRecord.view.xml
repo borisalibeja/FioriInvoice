@@ -7,41 +7,50 @@
     xmlns:core="sap.ui.core"
     xmlns:m="sap.m">
     
-    <m:Page id="EditRecord" title="Edit Record">
+    <m:Page id="EditRecord" title="Edit Invoice">
         <m:content>
             <m:VBox id="_IDGenVBox2" class="sapUiMediumMarginBegin">
 
                 <!-- Display Kunnr as a non-editable field -->
-                <m:Label id="_IDGenLabel5" text="Customer Number (Kunnr)" class="sapMLabelBold" />
-                <m:Text id="_IDGenText" text="{recordModel>/Kunnr}" width="150px" />
+                <m:Label id="_IDGenLabel5" text="Invoice Number (Invno)" class="sapMLabelBold" />
+                <m:Text id="_IDGenText" text="{recordModel>/Invno" width="150px" />
                 
                 <!-- Fields for Editing an Existing Record -->
-                <m:Label id="_IDGenLabel10" text="First Name" class="sapMLabelBold" required="true" />
-                <m:Input id="_IDGenInput9" placeholder="Enter First Name" value="{recordModel>/Name1}" width="150px" />
+                <m:Label id="_IDGenLabel10" text="{i18n>Invdate}" class="sapMLabelBold" required="true" />
+                <m:Input id="_IDGenInput25" placeholder="{i18n>Enter_Invdate}" value="{recordModel>/Invdate}" width="150px" />
 
-                <m:Label id="_IDGenLabel11" text="Last Name" class="sapMLabelBold" required="true" />
-                <m:Input id="_IDGenInput10" placeholder="Enter Last Name" value="{recordModel>/Name2}" width="150px" />
+                <m:Label id="_IDGenLabel12" text="{i18n>Csname}" class="sapMLabelBold" required="true" />
+                <m:Input id="_IDGenInput26" placeholder="{i18n>Enter_Csname}" value="{recordModel>/Csname}" width="150px" />
 
-                <m:Label id="_IDGenLabel12" text="Tax Number 1" class="sapMLabelBold" required="true" />
-                <m:Input id="_IDGenInput11" placeholder="Enter Tax Number 1" value="{recordModel>/Stcd1}" width="150px" />
+                <m:Label id="_IDGenLabel13" text="{i18n>Prod1}" class="sapMLabelBold" required="true" />
+                <m:Input id="_IDGenInput12" placeholder="{i18n>Enter_Prod1}" value="{recordModel>/Prod1}" width="150px" />
 
-                <m:Label id="_IDGenLabel13" text="Tax Number 2" class="sapMLabelBold" />
-                <m:Input id="_IDGenInput12" placeholder="Enter Tax Number 2" value="{recordModel>/Stcd2}" width="150px" />
+                <m:Label id="_IDGenLabel14" text="{i18n>Prod2}" class="sapMLabelBold" />
+                <m:Input id="_IDGenInput13" placeholder="{i18n>Enter_Prod2}" value="{recordModel>/Prod2}" width="150px" />
 
-                <m:Label id="_IDGenLabel14" text="Email" class="sapMLabelBold" required="true" />
-                <m:Input id="_IDGenInput13" placeholder="Enter Email" value="{recordModel>/SmtpAddr}" width="150px" />
+                <m:Label id="_IDGenLabel15" text="{i18n>Prod3}" class="sapMLabelBold" />
+                <m:Input id="_IDGenInput14" placeholder="{i18n>Enter_Prod3}" value="{recordModel>/Prod3}" width="150px" />
 
-                <m:Label id="_IDGenLabel17" text="Telephone Number" class="sapMLabelBold" required="true" />
-                <m:Input id="_IDGenInput16" placeholder="Enter Telephone Number" value="{recordModel>/TelNumber}" width="150px" />
+                <m:Label id="_IDGenLabel16" text="{i18n>Prod4}" class="sapMLabelBold" />
+                <m:Input id="_IDGenInput15" placeholder="{i18n>Enter_Prod4}" value="{recordModel>/Prod4}" width="150px" />
 
-                <m:Label id="_IDGenLabel15" text="Street" class="sapMLabelBold" />
-                <m:Input id="_IDGenInput14" placeholder="Enter Street" value="{recordModel>/Street}" width="150px" />
+                <m:Label id="_IDGenLabel17" text="{i18n>Prod5}" class="sapMLabelBold" />
+                <m:Input id="_IDGenInput16" placeholder="{i18n>Enter_Prod5}" value="{recordModel>/Prod5}" width="150px" />
 
-                <m:Label id="_IDGenLabel16" text="City" class="sapMLabelBold" />
-                <m:Input id="_IDGenInput15" placeholder="Enter City" value="{recordModel>/City1}" width="150px" />
+                <m:Label id="_IDGenLabel18" text="{i18n>Net}" class="sapMLabelBold" required="true" />
+                <m:Input id="_IDGenInput17" placeholder="{i18n>Enter_Net}" value="{recordModel>/Net}" width="150px" />
 
-                <m:Label id="_IDGenLabel18" text="Status" class="sapMLabelBold" />
-                <m:Input id="_IDGenInput17" placeholder="Enter Status" value="{recordModel>/Stkzn}" width="150px" />
+                <m:Label id="_IDGenLabel28"  text="{i18n>Vat}" class="sapMLabelBold" />
+                <m:Input id="_IDGenInput18" placeholder="{i18n>Enter_Vat}" value="{recordModel>/Vat}" width="150px" />
+
+                <m:Label id="_IDGenLabel38"  text="{i18n>Gross}" class="sapMLabelBold" />
+                <m:Input id="_IDGenInput19" placeholder="{i18n>Enter_Gross}" value="{recordModel>/Gross}" width="150px" />
+
+                <m:Label id="_IDGenLabel39"  text="{i18n>Curr}" class="sapMLabelBold" />
+                <m:Input id="_IDGenInput20" placeholder="{i18n>Enter_Curr}" value="{recordModel>/Curr}" width="150px" />
+
+                <m:Label id="_IDGenLabel11" text="{i18n>Invdes}" class="sapMLabelBold" required="true" />
+                <m:Input id="_IDGenInput27" placeholder="{i18n>Enter_Invdes}" value="{recordModel>/Invdes}" width="150px" />
 
                 <!-- Save and Cancel Buttons -->
                 <m:Toolbar id="_IDGenToolbar1" width="200px">

@@ -117,7 +117,7 @@
         },
         {
           "name": "RouteDetails",
-          "pattern": "details/{Kunnr}",
+          "pattern": "details/{Invno}",
           "target": [
             "TargetDetails"
           ]
@@ -129,7 +129,7 @@
         },
         {
           "name": "RouteEditRecord",
-          "pattern": "editRecord/{Kunnr}",
+          "pattern": "editRecord/{Invno}",
           "target": ["TargetEditRecord"]
         }
       ],

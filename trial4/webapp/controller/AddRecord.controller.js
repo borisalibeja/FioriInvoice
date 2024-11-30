@@ -42,7 +42,7 @@ sap.ui.define([
 
             // Send POST request to add the new record
             $.ajax({
-                url: `${appModulePath}/odata/sap/opu/odata/sap/ZBA_TEST_PROJECT_SRV/zba_testSet`,
+                url: `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet`,
                 type: "POST",
                 contentType: "application/json",
                 headers: { "X-CSRF-Token": csrfToken },
@@ -67,11 +67,12 @@ sap.ui.define([
         _getRequiredFields: function () {
             const oView = this.getView();
             return [
-                oView.byId("_IDGenInput"),  // First Name
-                oView.byId("_IDGenInput1"), // Last Name
-                oView.byId("_IDGenInput4"), // Email
-                oView.byId("_IDGenInput7"), // Tel Number
-                oView.byId("_IDGenInput2")  // Tax Number 1
+                oView.byId("_IDGenInput"),  // Date 
+                oView.byId("_IDGenInput2"), // Customer Name
+                oView.byId("_IDGenInput3"), // 1st Product
+                oView.byId("_IDGenInput8"), // Net Value
+                oView.byId("_IDGenInput9"), // Vat value
+                oView.byId("_IDGenInput11")  // Currency
             ];
         },
 
@@ -100,15 +101,18 @@ sap.ui.define([
         _getRecordData: function () {
             const oView = this.getView();
             return {
-                Name1: oView.byId("_IDGenInput").getValue(),
-                Name2: oView.byId("_IDGenInput1").getValue(),
-                Stcd1: oView.byId("_IDGenInput2").getValue(),
-                Stcd2: oView.byId("_IDGenInput3").getValue(),
-                SmtpAddr: oView.byId("_IDGenInput4").getValue(),
-                Street: oView.byId("_IDGenInput5").getValue(),
-                City1: oView.byId("_IDGenInput6").getValue(),
-                TelNumber: oView.byId("_IDGenInput7").getValue(),
-                Stkzn: oView.byId("_IDGenInput8").getValue()
+                Invdate: oView.byId("_IDGenInput").getValue(),
+                Invdes: oView.byId("_IDGenInput1").getValue(),
+                Csname: oView.byId("_IDGenInput2").getValue(),
+                Prod1: oView.byId("_IDGenInput3").getValue(),
+                Prod2: oView.byId("_IDGenInput4").getValue(),
+                Prod3: oView.byId("_IDGenInput5").getValue(),
+                Prod4: oView.byId("_IDGenInput6").getValue(),
+                Prod5: oView.byId("_IDGenInput7").getValue(),
+                Net: oView.byId("_IDGenInput8").getValue(),
+                Vat: oView.byId("_IDGenInput9").getValue(),
+                Gross: oView.byId("_IDGenInput10").getValue(),
+                Curr: oView.byId("_IDGenInput11").getValue()
             };
         },
 
@@ -130,7 +134,8 @@ sap.ui.define([
         _clearInputs: function () {
             const aInputIds = [
                 "_IDGenInput", "_IDGenInput1", "_IDGenInput2", "_IDGenInput3",
-                "_IDGenInput4", "_IDGenInput5", "_IDGenInput6", "_IDGenInput7", "_IDGenInput8"
+                "_IDGenInput4", "_IDGenInput5", "_IDGenInput6", "_IDGenInput7", "_IDGenInput8",
+                "_IDGenInput9", "_IDGenInput10", "_IDGenInput11"
             ];
             aInputIds.forEach((sId) => this.byId(sId).setValue(""));
         },

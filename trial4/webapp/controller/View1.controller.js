@@ -60,20 +60,20 @@ sap.ui.define([
             const aSelectedRows = aSelectedIndices.map((iIndex) => {
                 const oContext = oTable.getContextByIndex(iIndex);
                 return {
-                    Kunnr: oContext.getProperty("Kunnr"),
-                    CustomerName: oContext.getProperty("Name1")
+                    Invno: oContext.getProperty("Invno"),
+                    CustomerName: oContext.getProperty("Csname")
                 };
             });
 
             const sMessage = "Are you sure you want to delete the following records?\n\n" +
-                aSelectedRows.map(record => `- ${record.CustomerName} (Customer No: ${record.Kunnr})`).join("\n");
+                aSelectedRows.map(record => `- ${record.CustomerName} (Invoice No: ${record.Invno})`).join("\n");
 
             MessageBox.confirm(sMessage, {
                 actions: [MessageBox.Action.YES, MessageBox.Action.NO],
                 onClose: (oAction) => {
                     if (oAction === MessageBox.Action.YES) {
-                        const aKunnrValues = aSelectedRows.map(row => row.Kunnr);
-                        this._deleteRecords(aKunnrValues, () => {
+                        const aInvnoValues = aSelectedRows.map(row => row.Invno);
+                        this._deleteRecords(aInvnoValues, () => {
                             sap.ui.getCore().getEventBus().publish("dataChannel", "dataUpdated");
                         });
                     }
@@ -84,10 +84,10 @@ sap.ui.define([
         /**
          * Deletes multiple records by sending DELETE requests to the OData service.
          * @private
-         * @param {Array} aKunnrValues - List of customer numbers to delete.
+         * @param {Array} aInvnoValues - List of customer numbers to delete.
          * @param {Function} callBack - Callback function to execute after deletion.
          */
-        _deleteRecords: function (aKunnrValues, callBack) {
+        _deleteRecords: function (aInvnoValues, callBack) {
             const csrfToken = CSRFTokenManager.getToken();
 
             if (!csrfToken) {
@@ -96,18 +96,18 @@ sap.ui.define([
             }
 
             const appModulePath = this._getAppModulePath();
-            const aPromises = aKunnrValues.map((sKunnr) =>
+            const aPromises = aInvnoValues.map((sInvno) =>
                 new Promise((resolve, reject) => {
                     $.ajax({
-                        url: `${appModulePath}/odata/sap/opu/odata/sap/ZBA_TEST_PROJECT_SRV/zba_testSet(Kunnr='${sKunnr}')`,
+                        url: `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet(Invno='${sInvno}')`,
                         type: "DELETE",
                         headers: { "X-CSRF-Token": csrfToken },
                         success: () => {
-                            MessageToast.show(`Record with Kunnr ${sKunnr} deleted successfully.`);
+                            MessageToast.show(`Record with Invno ${sInvno} deleted successfully.`);
                             resolve();
                         },
                         error: (err) => {
-                            MessageBox.error(`Failed to delete record with Kunnr ${sKunnr}.`);
+                            MessageBox.error(`Failed to delete record with Invno ${sInvno}.`);
                             reject(err);
                         }
                     });
@@ -128,7 +128,7 @@ sap.ui.define([
             const oModel = new JSONModel();
 
             $.ajax({
-                url: `${appModulePath}/odata/sap/opu/odata/sap/ZBA_TEST_PROJECT_SRV/zba_testSet`,
+                url: `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet`,
                 type: "GET",
                 dataType: "json",
                 headers: { "X-CSRF-Token": "Fetch" },
@@ -154,7 +154,7 @@ sap.ui.define([
             const oBinding = this.byId("_IDGenTable1").getBinding("rows");
 
             const aFilters = sQuery ? [
-                "Kunnr", "Name1", "Name2", "Stcd1", "Stcd2",
+                "Invno", "Csname", "Name2", "Stcd1", "Stcd2",
                 "Smtp_addr", "Street", "City1", "Tel_number", "Stkzn"
             ].map(field => new Filter(field, FilterOperator.Contains, sQuery)) : [];
 
@@ -184,8 +184,8 @@ sap.ui.define([
          * @param {sap.ui.base.Event} oEvent - Event containing the selected context.
          */
         handleDetailsPress: function (oEvent) {
-            const kunnrSelected = oEvent.getSource().getBindingContext("listModel").getProperty("Kunnr");
-            this.getOwnerComponent().getRouter().navTo("RouteDetails", { Kunnr: kunnrSelected });
+            const InvnoSelected = oEvent.getSource().getBindingContext("listModel").getProperty("Invno");
+            this.getOwnerComponent().getRouter().navTo("RouteDetails", { Invno: InvnoSelected });
         },
 
         /**
@@ -215,14 +215,14 @@ sap.ui.define([
                 return;
             }
 
-            const sKunnr = oTable.getContextByIndex(aSelectedIndices[0]).getProperty("Kunnr");
+            const sInvno = oTable.getContextByIndex(aSelectedIndices[0]).getProperty("Invno");
 
-            if (!sKunnr) {
-                MessageBox.error("Failed to retrieve Kunnr from the selected row.");
+            if (!sInvno) {
+                MessageBox.error("Failed to retrieve Invno from the selected row.");
                 return;
             }
 
-            this.getOwnerComponent().getRouter().navTo("RouteEditRecord", { Kunnr: sKunnr });
+            this.getOwnerComponent().getRouter().navTo("RouteEditRecord", { Invno: sInvno });
             sap.ui.getCore().getEventBus().publish("dataChannel", "dataUpdated");
         },
 

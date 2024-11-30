@@ -34,15 +34,15 @@ sap.ui.define([
 
         /**
          * Handles the route pattern-matched event when navigating to the details view.
-         * Fetches customer data for the specified `Kunnr` and binds it to the view.
+         * Fetches customer data for the specified `Invno` and binds it to the view.
          * @private
          * @param {sap.ui.base.Event} oEvent - Event triggered when the route pattern matches.
          */
         _onObjectMatched: function (oEvent) {
-            const sKunnr = oEvent.getParameter("arguments").Kunnr;
+            const sInvno = oEvent.getParameter("arguments").Invno;
 
             // Fetch and bind data for the specified customer
-            this._fetchCustomerData(sKunnr)
+            this._fetchCustomerData(sInvno)
                 .then((data) => {
                     const oModel = new JSONModel(data);
                     this.getView().setModel(oModel, "detailsModel");
@@ -53,26 +53,26 @@ sap.ui.define([
         },
 
         /**
-         * Fetches customer data for a specific `Kunnr` via an AJAX request.
+         * Fetches customer data for a specific `Invno` via an AJAX request.
          * @private
-         * @param {string} sKunnr - Customer ID for the record to fetch.
+         * @param {string} sInvno - Customer ID for the record to fetch.
          * @returns {Promise<Object>} Resolves with customer data or rejects with an error message.
          */
-        _fetchCustomerData: function (sKunnr) {
+        _fetchCustomerData: function (sInvno) {
             const appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
             const appPath = appId.replaceAll(".", "/");
             const appModulePath = jQuery.sap.getModulePath(appPath);
 
             return new Promise((resolve, reject) => {
                 $.ajax({
-                    url: `${appModulePath}/odata/sap/opu/odata/sap/ZBA_TEST_PROJECT_SRV/zba_testSet(Kunnr='${sKunnr}')`,
+                    url: `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet(Invno='${sInvno}')`,
                     type: "GET",
                     dataType: "json",
                     success: (data) => {
                         if (data && data.d) {
                             resolve(data.d);
                         } else {
-                            reject(new Error("No data found for the specified Kunnr"));
+                            reject(new Error("No data found for the specified Invno"));
                         }
                     },
                     error: (err) => {
