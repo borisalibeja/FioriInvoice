@@ -102,6 +102,8 @@ sap.ui.define([
             }
 
             const appModulePath = this._getAppModulePath();
+            const oResourceModel = sap.ui.getCore().getModel("i18n");
+            const oResourceBundle = oResourceModel.getResourceBundle();
             const aPromises = aInvnoValues.map((sInvno) =>
                 new Promise((resolve, reject) => {
                     $.ajax({
@@ -109,11 +111,11 @@ sap.ui.define([
                         type: "DELETE",
                         headers: { "X-CSRF-Token": csrfToken },
                         success: () => {
-                            MessageToast.show(`Record with Invno ${sInvno} deleted successfully.`);
+                            MessageToast.show(oResourceBundle.getText("DeleteSuccessMessage", [sInvno]));
                             resolve();
                         },
                         error: (err) => {
-                            MessageBox.error(`Failed to delete record with Invno ${sInvno}.`);
+                            MessageBox.error(oResourceBundle.getText("DeleteErrorMessage", [sInvno]));
                             reject(err);
                         }
                     });
