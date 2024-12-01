@@ -18,7 +18,25 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
                 .getRoute("RouteChart") // Replace with the correct route name for this view
                 .attachPatternMatched(this._onRouteMatched, this);
             // Initialize Chart.js
-            this._initializeChart();
+            this.getView().addEventDelegate({
+                onAfterRendering: () => {
+                    const ctx = document.getElementById("productChart").getContext("2d");
+                    new Chart(ctx, {
+                        type: "bar",
+                        data: {
+                            labels: ["January", "February", "March"],
+                            datasets: [{
+                                label: "Sample Data",
+                                data: [10, 20, 30],
+                                backgroundColor: "rgba(75, 192, 192, 0.6)"
+                            }]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    });
+                }
+            });
         },
         _onRouteMatched: function () {
             // Refresh the i18n model when this route is matched
@@ -31,7 +49,7 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
         onPress: function()  {
             this.getOwnerComponent().getRouter().navTo("RouteView1");
         },
-        
+
         onFrequencyChange: function (oEvent) {
             const selectedKey = oEvent.getSource().getSelectedKey();
             this._updateChartData(selectedKey);
