@@ -22,10 +22,10 @@ sap.ui.define([
                 .getRoute("RouteAddRecord") // Replace with the correct route name for this view
                 .attachPatternMatched(this._onRouteMatched, this);
 
-            // Set today's date as the minimum date
-            const today = new Date();
-            const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-            this.getView().byId("_IDGenDatePicker").setMinDate(minDate);
+            // Load currency data from JSON file
+            const oCurrencyModel = new sap.ui.model.json.JSONModel();
+            oCurrencyModel.loadData("model/currency.json");
+            this.getView().setModel(oCurrencyModel, "currencyModel");
         },
         _onRouteMatched: function () {
             // Refresh the i18n model when this route is matched
@@ -121,6 +121,12 @@ sap.ui.define([
          */
         _getRecordData: function () {
             const oView = this.getView();
+            const net = parseFloat(oView.byId("_IDGenInput8").getValue()) || 0; // Net Value
+            const vat = parseFloat(oView.byId("_IDGenInput9").getValue()) || 0; // VAT Value
+            const gross = net + vat; // Calculate Gross Value
+        
+            // Set the calculated gross value in the Gross field
+            oView.byId("_IDGenInput10").setValue(gross);
             return {
                 Invdate: oView.byId("_IDGenDatePicker").getValue(),
                 Invdes: oView.byId("_IDGenInput1").getValue(),
@@ -130,10 +136,10 @@ sap.ui.define([
                 Prod3: oView.byId("_IDGenInput5").getValue(),
                 Prod4: oView.byId("_IDGenInput6").getValue(),
                 Prod5: oView.byId("_IDGenInput7").getValue(),
-                Net: oView.byId("_IDGenInput8").getValue(),
-                Vat: oView.byId("_IDGenInput9").getValue(),
-                Gross: oView.byId("_IDGenInput10").getValue(),
-                Curr: oView.byId("_IDGenInput11").getValue()
+                Net: net.toFixed(2),
+                Vat: vat.toFixed(2),
+                Gross: gross.toFixed(2),
+                Curr: oView.byId("_IDGenInput11").getSelectedKey()
             };
         },
 
@@ -159,6 +165,15 @@ sap.ui.define([
                 "_IDGenInput9", "_IDGenInput10", "_IDGenInput11"
             ];
             aInputIds.forEach((sId) => this.byId(sId).setValue(""));
+        },
+        onValueChange: function () {
+            const oView = this.getView();
+            const net = parseFloat(oView.byId("_IDGenInput8").getValue()) || 0; // Net Value
+            const vat = parseFloat(oView.byId("_IDGenInput9").getValue()) || 0; // VAT Value
+            const gross = net + vat; // Calculate Gross Value
+        
+            // Update Gross field
+            oView.byId("_IDGenInput10").setValue(gross.toFixed(2));
         },
 
         /**

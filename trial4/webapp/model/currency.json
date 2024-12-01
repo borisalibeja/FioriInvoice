@@ -1,0 +1,10 @@
+{
+    "currencies": [
+      { "key": "EUR", "text": "EUR - Euro" },
+      { "key": "USD", "text": "USD - US Dollar" },
+      { "key": "LEK", "text": "LEK - Albanian Lek" },
+      { "key": "GBP", "text": "GBP - British Pound" },
+      { "key": "JPY", "text": "JPY - Japanese Yen" }
+    ]
+  }
+  

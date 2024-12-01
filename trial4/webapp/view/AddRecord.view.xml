@@ -21,7 +21,7 @@
                         id="_IDGenDatePicker" 
                         placeholder="{i18n>Invdate}" 
                         width="200px" 
-                        minDate="{path: 'minDate', formatter: '.formatter.todayDate'}" 
+                        minDate="{path: '', formatter: '.formatter.todayDate'}" 
                         valueFormat="yyyy-MM-dd" 
                         displayFormat="long" />
 
@@ -39,13 +39,14 @@
 
                     <m:Input id="_IDGenInput7" placeholder="{i18n>Prod5}" width="200px" />
 
-                    <m:Input id="_IDGenInput8" placeholder="{i18n>Net}" width="200px" />
+                    <m:Input id="_IDGenInput8" placeholder="{i18n>Net}" width="200px" liveChange="onValueChange" />
+                    <m:Input id="_IDGenInput9" placeholder="{i18n>Vat}" width="200px" liveChange="onValueChange" />
+                    <m:Input id="_IDGenInput10" placeholder="{i18n>Gross}" width="200px" editable="false" />
 
-                    <m:Input id="_IDGenInput9"  placeholder="{i18n>Vat}" width="200px" />
-
-                    <m:Input id="_IDGenInput10"  placeholder="{i18n>Gross}" width="200px" />
-
-                    <m:Input id="_IDGenInput11"  placeholder="{i18n>Curr}" width="200px" />
+                    <m:ComboBox id="_IDGenInput11" width="200px" placeholder="{i18n>Curr}" items="{
+                        path: 'currencyModel>/currencies'}">
+                        <core:Item id="_IDGenItem" key="{currencyModel>key}" text="{currencyModel>text}" />
+                    </m:ComboBox>
 
                     <!-- Save and Cancel Buttons -->
                 </m:VBox>

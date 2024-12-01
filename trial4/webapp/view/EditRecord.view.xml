@@ -19,7 +19,7 @@
                 <m:DatePicker 
                         id="_IDGenDatePicker1" 
                         placeholder="{i18n>Invdate}" 
-                        width="200px" 
+                        width="150px" 
                         minDate="{path: '', formatter: '.formatter.todayDate'}" 
                         value="{recordModel>/Invdate}"
                         valueFormat="yyyy-MM-dd" 
@@ -37,13 +37,16 @@
 
                 <m:Input id="_IDGenInput16" placeholder="{i18n>Prod5}" value="{recordModel>/Prod5}" width="150px" />
 
-                <m:Input id="_IDGenInput17" placeholder="{i18n>Net}" value="{recordModel>/Net}" width="150px" />
+                <m:Input id="_IDGenInput17" placeholder="{i18n>Net}" value="{recordModel>/Net}" width="150px" liveChange="onValueChange" />
+                <m:Input id="_IDGenInput18" placeholder="{i18n>Vat}" value="{recordModel>/Vat}" width="150px" liveChange="onValueChange" />
+                <m:Input id="_IDGenInput19" placeholder="{i18n>Gross}" value="{recordModel>/Gross}" width="150px" editable="false" />
 
-                <m:Input id="_IDGenInput18" placeholder="{i18n>Vat}" value="{recordModel>/Vat}" width="150px" />
 
-                <m:Input id="_IDGenInput19" placeholder="{i18n>Gross}" value="{recordModel>/Gross}" width="150px" />
 
-                <m:Input id="_IDGenInput20" placeholder="{i18n>Curr}" value="{recordModel>/Curr}" width="150px" />
+                <m:ComboBox id="_IDGenInput20" width="200px" placeholder="{i18n>Curr}" selectedKey="{recordModel>/Curr}" items="{
+                    path: 'currencyModel>/currencies'}">
+                    <core:Item id="_IDGenItem1"  key="{currencyModel>key}" text="{currencyModel>text}" />
+                </m:ComboBox>
 
                 <m:Input id="_IDGenInput27" placeholder="{i18n>Invdes}" value="{recordModel>/Invdes}" width="150px" />
 

@@ -25,7 +25,10 @@ sap.ui.define([
             this.getOwnerComponent().getRouter()
                 .getRoute("RouteEditRecord")
                 .attachPatternMatched(this._onObjectMatched, this);
-            
+            // Load currency data from JSON file
+            const oCurrencyModel = new sap.ui.model.json.JSONModel();
+            oCurrencyModel.loadData("model/currency.json");
+            this.getView().setModel(oCurrencyModel, "currencyModel");
 
         },
 
@@ -147,6 +150,15 @@ sap.ui.define([
                 oView.byId("_IDGenInput18"), // Vat value
                 oView.byId("_IDGenInput20")  // Currency
             ];
+        },
+        onValueChange: function () {
+            const oView = this.getView();
+            const net = parseFloat(oView.byId("_IDGenInput17").getValue()) || 0; // Net Value
+            const vat = parseFloat(oView.byId("_IDGenInput18").getValue()) || 0; // VAT Value
+            const gross = net + vat; // Calculate Gross Value
+        
+            // Update Gross field
+            oView.byId("_IDGenInput19").setValue(gross.toFixed(2));
         },
 
         /**
