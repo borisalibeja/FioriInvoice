@@ -23,6 +23,13 @@ function (JSONModel, Device) {
                 default: 
                     return int
             }
+        },
+        /**
+         * Returns today's date to set as the minimum date for DatePicker
+         */
+        todayDate: function () {
+            const today = new Date();
+            return new Date(today.getFullYear(), today.getMonth(), today.getDate());
         }
     };
 

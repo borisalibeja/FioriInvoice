@@ -8,17 +8,24 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "trial4/utils/CSRFTokenManager",
     "sap/m/MessageBox",
-    "sap/m/MessageToast"
-], function (Controller, CSRFTokenManager, MessageBox, MessageToast) {
+    "sap/m/MessageToast",
+    "trial4/model/formatter"
+], function (Controller, CSRFTokenManager, MessageBox, MessageToast, formatter) {
     "use strict";
 
     return Controller.extend("trial4.controller.AddRecord", {
-
+        formatter: formatter,
+        
         onInit: function () {
             // Attach route pattern matched to update the i18n model dynamically
             this.getOwnerComponent().getRouter()
                 .getRoute("RouteAddRecord") // Replace with the correct route name for this view
                 .attachPatternMatched(this._onRouteMatched, this);
+
+            // Set today's date as the minimum date
+            const today = new Date();
+            const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            this.getView().byId("_IDGenDatePicker").setMinDate(minDate);
         },
         _onRouteMatched: function () {
             // Refresh the i18n model when this route is matched
@@ -81,7 +88,7 @@ sap.ui.define([
         _getRequiredFields: function () {
             const oView = this.getView();
             return [
-                oView.byId("_IDGenInput"),  // Date 
+                oView.byId("_IDGenDatePicker"),  // Date 
                 oView.byId("_IDGenInput2"), // Customer Name
                 oView.byId("_IDGenInput3"), // 1st Product
                 oView.byId("_IDGenInput8"), // Net Value
@@ -115,7 +122,7 @@ sap.ui.define([
         _getRecordData: function () {
             const oView = this.getView();
             return {
-                Invdate: oView.byId("_IDGenInput").getValue(),
+                Invdate: oView.byId("_IDGenDatePicker").getValue(),
                 Invdes: oView.byId("_IDGenInput1").getValue(),
                 Csname: oView.byId("_IDGenInput2").getValue(),
                 Prod1: oView.byId("_IDGenInput3").getValue(),
@@ -147,7 +154,7 @@ sap.ui.define([
          */
         _clearInputs: function () {
             const aInputIds = [
-                "_IDGenInput", "_IDGenInput1", "_IDGenInput2", "_IDGenInput3",
+                "_IDGenDatePicker", "_IDGenInput1", "_IDGenInput2", "_IDGenInput3",
                 "_IDGenInput4", "_IDGenInput5", "_IDGenInput6", "_IDGenInput7", "_IDGenInput8",
                 "_IDGenInput9", "_IDGenInput10", "_IDGenInput11"
             ];

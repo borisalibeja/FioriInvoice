@@ -17,7 +17,13 @@
 
                     <!-- Fields for Adding a New Record -->
                    
-                    <m:Input id="_IDGenInput" placeholder="{i18n>Invdate}" width="200px" />
+                    <m:DatePicker 
+                        id="_IDGenDatePicker" 
+                        placeholder="{i18n>Invdate}" 
+                        width="200px" 
+                        minDate="{path: 'minDate', formatter: '.formatter.todayDate'}" 
+                        valueFormat="yyyy-MM-dd" 
+                        displayFormat="long" />
 
                     <m:Input id="_IDGenInput1" placeholder="{i18n>Invdes}" width="200px" />
 

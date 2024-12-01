@@ -9,12 +9,14 @@ sap.ui.define([
     "trial4/utils/CSRFTokenManager",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
-    "sap/m/MessageToast"
-], function (Controller, CSRFTokenManager, JSONModel, MessageBox, MessageToast) {
+    "sap/m/MessageToast",
+    "trial4/model/formatter"
+], function (Controller, CSRFTokenManager, JSONModel, MessageBox, MessageToast, formatter) {
     "use strict";
 
     return Controller.extend("trial4.controller.EditRecord", {
 
+        formatter: formatter,
         /**
          * Initializes the controller and attaches the route pattern matched event.
          * @public
@@ -23,6 +25,8 @@ sap.ui.define([
             this.getOwnerComponent().getRouter()
                 .getRoute("RouteEditRecord")
                 .attachPatternMatched(this._onObjectMatched, this);
+            
+
         },
 
         /**
@@ -41,6 +45,7 @@ sap.ui.define([
             }
 
             this._fetchRecordData(this.sInvno);
+
         },
 
         /**
@@ -135,7 +140,7 @@ sap.ui.define([
         _getRequiredFields: function () {
             const oView = this.getView();
             return [
-                oView.byId("_IDGenInput25"),  // Date 
+                oView.byId("_IDGenDatePicker1"),  // Date 
                 oView.byId("_IDGenInput26"), // Customer Name
                 oView.byId("_IDGenInput12"), // 1st Product
                 oView.byId("_IDGenInput17"), // Net Value

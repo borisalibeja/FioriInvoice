@@ -16,7 +16,14 @@
                 <m:Text id="_IDGenText" text="{recordModel>/Invno}" width="150px" />
                 
                 <!-- Fields for Editing an Existing Record -->
-                <m:Input id="_IDGenInput25" placeholder="{i18n>Invdate}" value="{recordModel>/Invdate}" width="150px" />
+                <m:DatePicker 
+                        id="_IDGenDatePicker1" 
+                        placeholder="{i18n>Invdate}" 
+                        width="200px" 
+                        minDate="{path: '', formatter: '.formatter.todayDate'}" 
+                        value="{recordModel>/Invdate}"
+                        valueFormat="yyyy-MM-dd" 
+                        displayFormat="long" />
 
                 <m:Input id="_IDGenInput26" placeholder="{i18n>Csname}" value="{recordModel>/Csname}" width="150px" />
 
