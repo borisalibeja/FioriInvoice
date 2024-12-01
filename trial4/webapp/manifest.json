@@ -109,10 +109,10 @@
           ]
         },
         {
-          "name": "RouteView2",
-          "pattern": "view2",
+          "name": "RouteChart",
+          "pattern": "chart",
           "target": [
-            "TargetView2"
+            "TargetChart"
           ]
         },
         {
@@ -141,12 +141,12 @@
           "viewId": "View1",
           "viewName": "View1"
         },
-        "TargetView2": {
+        "TargetChart": {
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
-          "viewId": "view2",
-          "viewName": "View2"
+          "viewId": "chart",
+          "viewName": "Chart"
         },
         "TargetDetails": {
           "viewType": "XML",

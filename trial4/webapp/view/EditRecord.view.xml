@@ -19,27 +19,27 @@
                 <m:DatePicker 
                         id="_IDGenDatePicker1" 
                         placeholder="{i18n>Invdate}" 
-                        width="150px" 
+                        width="200px" 
                         minDate="{path: '', formatter: '.formatter.todayDate'}" 
                         value="{recordModel>/Invdate}"
                         valueFormat="yyyy-MM-dd" 
                         displayFormat="long" />
 
-                <m:Input id="_IDGenInput26" placeholder="{i18n>Csname}" value="{recordModel>/Csname}" width="150px" />
+                <m:Input id="_IDGenInput26" placeholder="{i18n>Csname}" value="{recordModel>/Csname}" width="200px" />
 
-                <m:Input id="_IDGenInput12" placeholder="{i18n>Prod1}" value="{recordModel>/Prod1}" width="150px" />
+                <m:Input id="_IDGenInput12" placeholder="{i18n>Prod1}" value="{recordModel>/Prod1}" width="200px" />
 
-                <m:Input id="_IDGenInput13" placeholder="{i18n>Prod2}" value="{recordModel>/Prod2}" width="150px" />
+                <m:Input id="_IDGenInput13" placeholder="{i18n>Prod2}" value="{recordModel>/Prod2}" width="200px" />
 
-                <m:Input id="_IDGenInput14" placeholder="{i18n>Prod3}" value="{recordModel>/Prod3}" width="150px" />
+                <m:Input id="_IDGenInput14" placeholder="{i18n>Prod3}" value="{recordModel>/Prod3}" width="200px" />
 
-                <m:Input id="_IDGenInput15" placeholder="{i18n>Prod4}" value="{recordModel>/Prod4}" width="150px" />
+                <m:Input id="_IDGenInput15" placeholder="{i18n>Prod4}" value="{recordModel>/Prod4}" width="200px" />
 
-                <m:Input id="_IDGenInput16" placeholder="{i18n>Prod5}" value="{recordModel>/Prod5}" width="150px" />
+                <m:Input id="_IDGenInput16" placeholder="{i18n>Prod5}" value="{recordModel>/Prod5}" width="200px" />
 
-                <m:Input id="_IDGenInput17" placeholder="{i18n>Net}" value="{recordModel>/Net}" width="150px" liveChange="onValueChange" />
-                <m:Input id="_IDGenInput18" placeholder="{i18n>Vat}" value="{recordModel>/Vat}" width="150px" liveChange="onValueChange" />
-                <m:Input id="_IDGenInput19" placeholder="{i18n>Gross}" value="{recordModel>/Gross}" width="150px" editable="false" />
+                <m:Input id="_IDGenInput17" placeholder="{i18n>Net}" value="{recordModel>/Net}" width="200px" liveChange="onValueChange" />
+                <m:Input id="_IDGenInput18" placeholder="{i18n>Vat}" value="{recordModel>/Vat}" width="200px" liveChange="onValueChange" />
+                <m:Input id="_IDGenInput19" placeholder="{i18n>Gross}" value="{recordModel>/Gross}" width="200px" editable="false" />
 
 
 

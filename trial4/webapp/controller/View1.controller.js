@@ -42,7 +42,7 @@ sap.ui.define([
          * @public
          */
         onPress: function () {
-            this.getOwnerComponent().getRouter().navTo("RouteView2");
+            this.getOwnerComponent().getRouter().navTo("RouteChart");
         },
 
         /**

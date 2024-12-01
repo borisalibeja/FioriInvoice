@@ -1,0 +1,45 @@
+<mvc:View controllerName="trial4.controller.Chart"
+    xmlns:mvc="sap.ui.core.mvc" 
+    displayBlock="true"
+    xmlns="sap.ui.table"
+	xmlns:u="sap.ui.unified"
+	xmlns:c="sap.ui.core"
+	xmlns:core="sap.ui.core"
+	xmlns:m="sap.m" >
+
+
+    <m:Page id="chart" title="{i18n>ChartTitle}">
+
+        <m:content>
+			<m:VBox id="_IDGenVBox1" class="sapUiSmallMargin">
+                <!-- Dropdown for Time Frequency -->
+                <m:Label id="_IDGenLabel11" text="Select Time Frequency:" />
+                <m:ComboBox id="frequencyDropdown" selectionChange="onFrequencyChange">
+                    <core:Item id="_IDGenItem2" key="week" text="Week" />
+                    <core:Item id="_IDGenItem3" key="month" text="Month" />
+                    <core:Item id="_IDGenItem4" key="year" text="Year" />
+                </m:ComboBox>
+                
+                <!-- Chart Container -->
+				<m:Label id="_IDGenLabel12" text="Chart:" />
+                <core:HTML
+					id="chartContainer"
+					content="&lt;canvas id='productChart' style='width: 100%; height: 400px;'&gt;&lt;/canvas&gt;" />
+            </m:VBox>
+
+			<m:Button id="fakebutton" text="{i18n>GoBack}"
+				press="onPress">
+				<m:layoutData>
+					<m:FlexItemData id="fakebutton2" growFactor="1" />
+				</m:layoutData>
+			</m:Button>
+
+			
+		</m:content>
+
+		
+
+
+    </m:Page>
+
+</mvc:View>

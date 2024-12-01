@@ -110,21 +110,27 @@
 						</template>
 					</Column>
 
-					<Column id="_IDGenColumn7" width="11rem">
+					<Column id="_IDGenColumn7" width="7rem">
 						<m:Label id="_IDGenLabel7" text="{i18n>Net}" />
 						<template>
 							<m:Text id="_IDGenText7" text="{listModel>Net}" wrapping="false" />
 						</template>
 					</Column>
+					<Column id="_IDGenColumn5"  width="7rem">
+						<m:Label id="_IDGenLabel10"  text="{i18n>Vat}" />
+						<template>
+							<m:Text id="_IDGenText20"  text="{listModel>Vat}" wrapping="false" />
+						</template>
+					</Column>
 
-					<Column id="_IDGenColumn8" width="11rem">
+					<Column id="_IDGenColumn8" width="7rem">
 						<m:Label id="_IDGenLabel8" text="{i18n>Gross}" />
 						<template>
 							<m:Text id="_IDGenText8" text="{listModel>Gross}" wrapping="false" />
 						</template>
 					</Column>
 
-					<Column id="_IDGenColumn9" width="11rem">
+					<Column id="_IDGenColumn9" width="7rem">
 						<m:Label id="_IDGenLabel9" text="{i18n>Curr}" />
 						<template>
 							<m:Text id="_IDGenText9" text="{listModel>Curr}" wrapping="false" />
