@@ -1,11 +1,10 @@
-# App Title - Trial 4
+# Fiori Invoice
 
 ## Description
 This is a simple SAP Fiori application that interacts with an OData service to display and manage data. The app was generated using the SAP Fiori tools suite and is styled using the `sap_horizon` theme for a modern, responsive UI.
 
 ## Features
 - Responsive Fiori UI built with UI5 (version 1.130.0).
-- Integration with an OData service available at `https://academytrial.dest/`.
 - All CRUD Operations available on the table
 
 ## Pre-requisites
@@ -22,10 +21,8 @@ This is a simple SAP Fiori application that interacts with an OData service to d
 ### Install the App Dependecies and Configuration
 1. Clone this repository and navigate to the project root:
     1. 
-        ```bash
-
-            git clone --branch main --single-branch https://github.com/borisalibeja/FioriTrial.git
-        ```
+            git clone --branch main --single-branch https://github.com/borisalibeja/FioriInvoice.git
+       
     2. Navigate to your FioriTrial project folder
 
 2. Create the App Router and build the MTA Archives:
