@@ -15,29 +15,11 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
         onInit: function () {
             // Attach route pattern matched to update the i18n model dynamically
             this.getOwnerComponent().getRouter()
-                .getRoute("RouteChart") // Replace with the correct route name for this view
+                .getRoute("RouteChart")
                 .attachPatternMatched(this._onRouteMatched, this);
-            // Initialize Chart.js
-            this.getView().addEventDelegate({
-                onAfterRendering: () => {
-                    const ctx = document.getElementById("productChart").getContext("2d");
-                    new Chart(ctx, {
-                        type: "bar",
-                        data: {
-                            labels: ["January", "February", "March"],
-                            datasets: [{
-                                label: "Sample Data",
-                                data: [10, 20, 30],
-                                backgroundColor: "rgba(75, 192, 192, 0.6)"
-                            }]
-                        },
-                        options: {
-                            responsive: true
-                        }
-                    });
-                }
-            });
+            this._callToDB();
         },
+
         _onRouteMatched: function () {
             // Refresh the i18n model when this route is matched
             let oResourceModel = sap.ui.getCore().getModel("i18n");
@@ -45,74 +27,118 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
                 this.getView().setModel(oResourceModel, "i18n");
             }
         },
-        
-        onPress: function()  {
+
+        onPress: function () {
             this.getOwnerComponent().getRouter().navTo("RouteView1");
         },
 
-        onFrequencyChange: function (oEvent) {
-            const selectedKey = oEvent.getSource().getSelectedKey();
-            this._updateChartData(selectedKey);
-        },
+        onShowChart: function () {
+            const fromDate = this.getView().byId("fromDate").getDateValue();
+            const toDate = this.getView().byId("toDate").getDateValue();
+            const timeDivision = this.getView().byId("timeDivisionDropdown").getSelectedKey();
+            const oModel = this.getView().getModel("invoiceModel");
 
-        _initializeChart: function () {
-            const ctx = document.getElementById("productChart").getContext("2d");
+            if (!oModel) {
+                MessageBox.error("Invoice model is not available. Please ensure data is loaded correctly.");
+                return;
+            }
 
-            this.chart = new Chart(ctx, {
-                type: "bar",
-                data: {
-                    labels: [], // Will be updated dynamically
-                    datasets: [] // Will be updated dynamically
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Dynamic Product Chart'
-                        }
-                    }
-                }
+            const oData = oModel.getData();
+            if (!fromDate || !toDate || !timeDivision) {
+                MessageBox.error("Please set all filters before submitting.");
+                return;
+            }
+
+            // Filter data by date range
+            const filteredData = oData.filter(item => {
+                const invDate = new Date(item.Invdate);
+                return invDate >= fromDate && invDate <= toDate;
             });
 
-            // Set initial data (default to weekly data)
-            this._updateChartData("week");
+            if (filteredData.length === 0) {
+                MessageBox.warning("No data available for the selected time frame.");
+                return;
+            }
+
+            // Process data for the chart
+            const chartData = this._generateChartData(filteredData, timeDivision);
+
+            const salesChart = this.getView().byId("salesChart");
+            if (!salesChart) {
+                MessageBox.error("Sales Chart is not available. Please check the view definition.");
+                return;
+            }
+            salesChart.removeAllColumns();
+
+            chartData.forEach(segment => {
+                salesChart.addColumn(new sap.suite.ui.microchart.ColumnMicroChartData({
+                    label: segment.label,
+                    value: segment.value,
+                    color: segment.color
+                }));
+            });
         },
 
-        _updateChartData: function (frequency) {
-            // Sample data based on frequency
-            const chartData = {
-                week: {
-                    labels: ["2023-W44", "2023-W45", "2023-W46"],
-                    datasets: [
-                        { label: "Product A", data: [3, 4, 2], backgroundColor: "rgba(75, 192, 192, 0.6)" },
-                        { label: "Product B", data: [2, 5, 3], backgroundColor: "rgba(192, 75, 75, 0.6)" }
-                    ]
-                },
-                month: {
-                    labels: ["November 2023", "December 2023", "January 2024"],
-                    datasets: [
-                        { label: "Product A", data: [10, 15, 5], backgroundColor: "rgba(75, 192, 192, 0.6)" },
-                        { label: "Product B", data: [12, 20, 8], backgroundColor: "rgba(192, 75, 75, 0.6)" }
-                    ]
-                },
-                year: {
-                    labels: ["2023", "2024"],
-                    datasets: [
-                        { label: "Product A", data: [150, 80], backgroundColor: "rgba(75, 192, 192, 0.6)" },
-                        { label: "Product B", data: [200, 100], backgroundColor: "rgba(192, 75, 75, 0.6)" }
-                    ]
-                }
-            };
+        _getAppModulePath: function () {
+            const appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
+            return jQuery.sap.getModulePath(appId.replaceAll(".", "/"));
+        },
 
-            // Update the chart data
-            const newData = chartData[frequency];
-            this.chart.data.labels = newData.labels;
-            this.chart.data.datasets = newData.datasets;
-            this.chart.update();
+        _callToDB: function () {
+            const appModulePath = this._getAppModulePath();
+            const oModel = new JSONModel();
+
+            $.ajax({
+                url: `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet`,
+                type: "GET",
+                dataType: "json",
+                headers: { "X-CSRF-Token": "Fetch" },
+                success: (data, textStatus, jqXHR) => {
+                    const token = jqXHR.getResponseHeader("X-CSRF-Token");
+                    CSRFTokenManager.setToken(token);
+                    oModel.setData(data.d.results); // Store fetched data
+                    this.getView().setModel(oModel, "invoiceModel");
+                },
+                error: (err) => {
+                    MessageBox.error("Error loading data: " + err.statusText);
+                }
+            });
+        },
+
+        _generateChartData: function (data, division) {
+            const chartSegments = 4;
+            const segmentData = [];
+
+            // Split data into 4 equal segments and calculate sales per segment
+            const segmentDuration = Math.ceil(data.length / chartSegments);
+
+            for (let i = 0; i < chartSegments; i++) {
+                const segment = data.slice(i * segmentDuration, (i + 1) * segmentDuration);
+
+                let label = `Segment ${i + 1}`;
+                switch (division) {
+                    case "day":
+                        label = `Day ${i + 1}`;
+                        break;
+                    case "week":
+                        label = `Week ${i + 1}`;
+                        break;
+                    case "month":
+                        label = `Month ${i + 1}`;
+                        break;
+                    case "year":
+                        label = `Year ${i + 1}`;
+                        break;
+                }
+
+                segmentData.push({
+                    label,
+                    value: segment.length, // Total sales count in the segment
+                    color: i % 2 === 0 ? "Good" : "Neutral" // Alternate colors
+                });
+            }
+
+            return segmentData;
         }
     });
 });

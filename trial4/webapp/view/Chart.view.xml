@@ -1,32 +1,49 @@
 <mvc:View controllerName="trial4.controller.Chart"
     xmlns:mvc="sap.ui.core.mvc" 
     displayBlock="true"
-    xmlns="sap.ui.table"
-	xmlns:u="sap.ui.unified"
-	xmlns:c="sap.ui.core"
-	xmlns:core="sap.ui.core"
-	xmlns:m="sap.m" >
+    xmlns:m="sap.m"
+    xmlns:chart="sap.suite.ui.microchart"
+    xmlns:core="sap.ui.core" >
 
 
     <m:Page id="chart" title="{i18n>ChartTitle}">
 
         <m:content>
-			<m:VBox id="_IDGenVBox1" class="sapUiSmallMargin">
-                <!-- Dropdown for Time Frequency -->
-                <m:Label id="_IDGenLabel11" text="Select Time Frequency:" />
-                <m:ComboBox id="frequencyDropdown" selectionChange="onFrequencyChange">
-                    <core:Item id="_IDGenItem2" key="week" text="Week" />
-                    <core:Item id="_IDGenItem3" key="month" text="Month" />
-                    <core:Item id="_IDGenItem4" key="year" text="Year" />
+            <!-- Filter Container -->
+            <m:VBox id="timeFilterVBox" class="sapUiSmallMargin">
+                <!-- Time Frame Filters -->
+                <m:Label id="_IDGenLabel12" text="Select Time Frame:" />
+                <m:DatePicker id="fromDate" placeholder="From Date" displayFormat="long" />
+                <m:DatePicker id="toDate" placeholder="To Date" displayFormat="long" />
+
+                <!-- Time Division Filter -->
+                <m:Label id="_IDGenLabel13" text="Select Time Division:" />
+                <m:ComboBox id="timeDivisionDropdown">
+                    <core:Item id="_IDGenItem2" key="day" text="Days" />
+                    <core:Item id="_IDGenItem3" key="week" text="Weeks" />
+                    <core:Item id="_IDGenItem4" key="month" text="Months" />
+                    <core:Item id="_IDGenItem5" key="year" text="Years" />
                 </m:ComboBox>
-                
-                <!-- Chart Container -->
-				<m:Label id="_IDGenLabel12" text="Chart:" />
-                <core:HTML
-					id="chartContainer"
-					content="&lt;canvas id='productChart' style='width: 100%; height: 400px;'&gt;&lt;/canvas&gt;" />
+
+                <!-- Submit Button -->
+                <m:Button id="showChartButton" text="Show Chart" press="onShowChart" />
             </m:VBox>
 
+            <!-- Chart Container -->
+            <!-- Chart Container -->
+            <m:FlexBox id="chartContainer" direction="Column" class="sapUiSmallMargin">
+                <chart:ColumnMicroChart
+                    id="salesChart">
+                    <chart:columns>
+                        <chart:ColumnMicroChartData id="_IDGenColumnMicroChartData1" label="Segment 1" value="30" color="Good" />
+                        <chart:ColumnMicroChartData id="_IDGenColumnMicroChartData2" label="Segment 2" value="50" color="Neutral" />
+                        <chart:ColumnMicroChartData id="_IDGenColumnMicroChartData3" label="Segment 3" value="70" color="Critical" />
+                        <chart:ColumnMicroChartData id="_IDGenColumnMicroChartData4" label="Segment 4" value="90" color="Error" />
+                    </chart:columns>
+                </chart:ColumnMicroChart>
+            </m:FlexBox>
+
+            <!-- Go Back Button -->
 			<m:Button id="fakebutton" text="{i18n>GoBack}"
 				press="onPress">
 				<m:layoutData>
@@ -34,11 +51,7 @@
 				</m:layoutData>
 			</m:Button>
 
-			
 		</m:content>
-
-		
-
 
     </m:Page>
 

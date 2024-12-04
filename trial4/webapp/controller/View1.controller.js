@@ -38,7 +38,7 @@ sap.ui.define([
         },
 
         /**
-         * Navigates to the secondary view.
+         * Navigates to the chart view.
          * @public
          */
         onPress: function () {
