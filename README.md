@@ -21,7 +21,7 @@ This is a simple SAP Fiori application that interacts with an OData service to d
 ### Install the App Dependecies and Configuration
 1. Clone this repository and navigate to the project root:
     1. ```
-            git clone --branch main --single-branch https://github.com/borisalibeja/FioriInvoice.git
+       git clone --branch main --single-branch https://github.com/borisalibeja/FioriInvoice.git
        ```
     2. Navigate to your FioriTrial project folder
 
