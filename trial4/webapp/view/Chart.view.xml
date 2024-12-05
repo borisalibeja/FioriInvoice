@@ -3,7 +3,11 @@
     displayBlock="true"
     xmlns:m="sap.m"
     xmlns:chart="sap.suite.ui.microchart"
-    xmlns:core="sap.ui.core" >
+    xmlns:core="sap.ui.core" 
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    >
 
 
     <m:Page id="chart" title="{i18n>ChartTitle}">
@@ -39,18 +43,27 @@
             </m:FlexBox>
 
 
-            <!-- Chart Container -->
             <m:FlexBox id="chartContainer" direction="Column" class="sapUiSmallMargin">
-                <chart:ColumnMicroChart
-                    id="salesChart">
-                    <chart:columns>
-                        <!-- <chart:ColumnMicroChartData id="_IDGenColumnMicroChartData1" label="Segment 1" value="30" color="Good" />
-                        <chart:ColumnMicroChartData id="_IDGenColumnMicroChartData2" label="Segment 2" value="50" color="Neutral" />
-                        <chart:ColumnMicroChartData id="_IDGenColumnMicroChartData3" label="Segment 3" value="70" color="Critical" />
-                        <chart:ColumnMicroChartData id="_IDGenColumnMicroChartData4" label="Segment 4" value="90" color="Error" /> -->
-                    </chart:columns>
-                </chart:ColumnMicroChart>
+
+                <!-- Chart using VizFrame -->
+                <viz:VizFrame id="salesVizFrame" uiConfig="{applicationSet:'fiori'}" width="100%" height="400px" vizType="column">
+                    <viz:dataset>
+                        <viz.data:FlattenedDataset id="_IDGenFlattenedDataset1" data="{chartModel>/}">
+                            <viz.data:dimensions>
+                                <viz.data:DimensionDefinition id="_IDGenDimensionDefinition" name="Time Division" value="{chartModel>time}" />
+                            </viz.data:dimensions>
+                            <viz.data:measures>
+                                <viz.data:MeasureDefinition id="_IDGenMeasureDefinition" name="Sales" value="{chartModel>sales}" />
+                            </viz.data:measures>
+                        </viz.data:FlattenedDataset>
+                    </viz:dataset>
+                    <viz:feeds>
+                        <viz.feeds:FeedItem id="_IDGenFeedItem" uid="categoryAxis" type="Dimension" values="Time Division" />
+                        <viz.feeds:FeedItem id="_IDGenFeedItem1" uid="valueAxis" type="Measure" values="Sales" />
+                    </viz:feeds>
+                </viz:VizFrame>
             </m:FlexBox>
+
                         <!-- Chart Navigation -->
             <m:FlexBox id="navigationBox" direction="Row" justifyContent="Center" alignItems="Center">
                 <m:Button id="prevButton" text="Back" press="onNavigateBack" />

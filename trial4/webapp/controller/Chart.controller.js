@@ -93,17 +93,8 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
         },
 
         _updateChart: function () {
-            const salesChart = this.getView().byId("salesChart");
-            salesChart.removeAllColumns();
-
-            const columns = this.chartData.slice(this.currentIndex, this.currentIndex + 4);
-            columns.forEach(segment => {
-                salesChart.addColumn(new sap.suite.ui.microchart.ColumnMicroChartData({
-                    label: segment.label,
-                    value: segment.value,
-                    color: segment.color
-                }));
-            });
+            const chartModel = new JSONModel(this.chartData.slice(this.currentIndex, this.currentIndex + 4));
+            this.getView().setModel(chartModel, "chartModel");
         },
         onNavigateForward: function () {
             if (this.currentIndex + 4 < this.chartData.length) {
@@ -131,16 +122,16 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
                 dateGroups[dateKey]++;
             });
 
-            Object.keys(dateGroups).forEach((key, index) => {
+            Object.keys(dateGroups).forEach(key => {
                 sales.push({
-                    label: key,
-                    value: dateGroups[key],
-                    color: index % 2 === 0 ? "Good" : "Neutral"
+                    time: key,
+                    sales: dateGroups[key]
                 });
             });
 
             return sales;
         },
+
         _getDateKey: function (date, division) {
             const d = new Date(date);
             switch (division) {
