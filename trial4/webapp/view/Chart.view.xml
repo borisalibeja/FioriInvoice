@@ -36,7 +36,9 @@
                         <core:Item id="_IDGenItem5" key="year" text="Years" />
                     </m:ComboBox>
                 </m:VBox>
-                <m:VBox id="_IDGenVBox4" class="sapUiSmallMarginEnd">                         <!-- Submit Button -->
+
+                <!-- Submit Button -->
+                <m:VBox id="_IDGenVBox4" class="sapUiSmallMarginEnd">                         
                     <m:Label id="_IDGenLabel11"  text="" />
                     <m:Button id="showChartButton" text="Show Chart" press="onShowChart" />
                 </m:VBox>

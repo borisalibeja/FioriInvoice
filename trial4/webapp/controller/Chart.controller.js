@@ -93,19 +93,19 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
         },
 
         _updateChart: function () {
-            const chartModel = new JSONModel(this.chartData.slice(this.currentIndex, this.currentIndex + 4));
+            const chartModel = new JSONModel(this.chartData.slice(this.currentIndex, this.currentIndex + 7));
             this.getView().setModel(chartModel, "chartModel");
         },
         onNavigateForward: function () {
-            if (this.currentIndex + 4 < this.chartData.length) {
-                this.currentIndex += 4;
+            if (this.currentIndex + 7 < this.chartData.length) {
+                this.currentIndex += 7;
                 this._updateChart();
             }
         },
 
         onNavigateBack: function () {
-            if (this.currentIndex - 4 >= 0) {
-                this.currentIndex -= 4;
+            if (this.currentIndex - 7 >= 0) {
+                this.currentIndex -= 7;
                 this._updateChart();
             }
         },
@@ -125,11 +125,18 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
             Object.keys(dateGroups).forEach(key => {
                 sales.push({
                     time: key,
-                    sales: dateGroups[key]
+                    sales: dateGroups[key],
+                    rawDate: new Date(key.split(" - ")[0]) // Extract the start date for sorting
                 });
             });
 
-            return sales;
+                // Sort sales data by rawDate (earlier dates first)
+            sales.sort((a, b) => a.rawDate - b.rawDate);
+
+            return sales.map(item => ({
+                time: item.time, // Keep formatted time
+                sales: item.sales
+            }));
         },
 
         _getDateKey: function (date, division) {
@@ -138,13 +145,47 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
                 case "day":
                     return d.toLocaleDateString();
                 case "week":
-                    const week = Math.ceil(d.getDate() / 7);
-                    return `Week ${week} - ${d.getMonth() + 1}`;
+                    const startOfWeek = new Date(d);
+                    const dayOfWeek = d.getDay(); // 0 (Sunday) to 6 (Saturday)
+                    const offsetToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // Adjust to previous Monday
+                    startOfWeek.setDate(d.getDate() + offsetToMonday); // Set to Monday
+                    const endOfWeek = new Date(startOfWeek);
+                    endOfWeek.setDate(startOfWeek.getDate() + 6); // Set to Sunday
+                    return `${startOfWeek.toLocaleDateString()} - ${endOfWeek.toLocaleDateString()}`;
                 case "month":
                     return `${d.getMonth() + 1}/${d.getFullYear()}`;
                 case "year":
                     return d.getFullYear().toString();
             }
+        },
+        onAfterRendering: function () {
+            const oVizFrame = this.getView().byId("salesVizFrame");
+        
+            // Set vizProperties dynamically
+            oVizFrame.setVizProperties({
+                valueAxis: {
+                    scale: {
+                        fixedRange: false // Let the chart dynamically scale based on data
+                    },
+                    title: {
+                        visible: true,
+                        text: "Number of Sales"
+                    }
+                },
+                categoryAxis: {
+                    title: {
+                        visible: true,
+                        text: "Time Division"
+                    }
+                },
+                legend: {
+                    visible: true
+                },
+                title: {
+                    visible: true,
+                    text: "Sales Chart"
+                }
+            });
         }
     });
 });
