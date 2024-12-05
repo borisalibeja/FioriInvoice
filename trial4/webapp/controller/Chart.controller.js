@@ -49,7 +49,6 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
                 return;
             }
 
-            // Filter data by date range
             const filteredData = oData.filter(item => {
                 const invDate = new Date(item.Invdate);
                 return invDate >= fromDate && invDate <= toDate;
@@ -60,23 +59,8 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
                 return;
             }
 
-            // Process data for the chart
             const chartData = this._generateChartData(filteredData, timeDivision);
-
-            const salesChart = this.getView().byId("salesChart");
-            if (!salesChart) {
-                MessageBox.error("Sales Chart is not available. Please check the view definition.");
-                return;
-            }
-            salesChart.removeAllColumns();
-
-            chartData.forEach(segment => {
-                salesChart.addColumn(new sap.suite.ui.microchart.ColumnMicroChartData({
-                    label: segment.label,
-                    value: segment.value,
-                    color: segment.color
-                }));
-            });
+            this._displayChart(chartData);
         },
 
         _getAppModulePath: function () {
@@ -94,8 +78,6 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
                 dataType: "json",
                 headers: { "X-CSRF-Token": "Fetch" },
                 success: (data, textStatus, jqXHR) => {
-                    const token = jqXHR.getResponseHeader("X-CSRF-Token");
-                    CSRFTokenManager.setToken(token);
                     oModel.setData(data.d.results); // Store fetched data
                     this.getView().setModel(oModel, "invoiceModel");
                 },
@@ -104,41 +86,74 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
                 }
             });
         },
+        _displayChart: function (data) {
+            this.chartData = data; // Store data for navigation
+            this.currentIndex = 0; // Reset navigation index
+            this._updateChart();
+        },
+
+        _updateChart: function () {
+            const salesChart = this.getView().byId("salesChart");
+            salesChart.removeAllColumns();
+
+            const columns = this.chartData.slice(this.currentIndex, this.currentIndex + 4);
+            columns.forEach(segment => {
+                salesChart.addColumn(new sap.suite.ui.microchart.ColumnMicroChartData({
+                    label: segment.label,
+                    value: segment.value,
+                    color: segment.color
+                }));
+            });
+        },
+        onNavigateForward: function () {
+            if (this.currentIndex + 4 < this.chartData.length) {
+                this.currentIndex += 4;
+                this._updateChart();
+            }
+        },
+
+        onNavigateBack: function () {
+            if (this.currentIndex - 4 >= 0) {
+                this.currentIndex -= 4;
+                this._updateChart();
+            }
+        },
 
         _generateChartData: function (data, division) {
-            const chartSegments = 4;
-            const segmentData = [];
+            const sales = [];
+            const dateGroups = {};
 
-            // Split data into 4 equal segments and calculate sales per segment
-            const segmentDuration = Math.ceil(data.length / chartSegments);
-
-            for (let i = 0; i < chartSegments; i++) {
-                const segment = data.slice(i * segmentDuration, (i + 1) * segmentDuration);
-
-                let label = `Segment ${i + 1}`;
-                switch (division) {
-                    case "day":
-                        label = `Day ${i + 1}`;
-                        break;
-                    case "week":
-                        label = `Week ${i + 1}`;
-                        break;
-                    case "month":
-                        label = `Month ${i + 1}`;
-                        break;
-                    case "year":
-                        label = `Year ${i + 1}`;
-                        break;
+            data.forEach(item => {
+                const dateKey = this._getDateKey(item.Invdate, division);
+                if (!dateGroups[dateKey]) {
+                    dateGroups[dateKey] = 0;
                 }
+                dateGroups[dateKey]++;
+            });
 
-                segmentData.push({
-                    label,
-                    value: segment.length, // Total sales count in the segment
-                    color: i % 2 === 0 ? "Good" : "Neutral" // Alternate colors
+            Object.keys(dateGroups).forEach((key, index) => {
+                sales.push({
+                    label: key,
+                    value: dateGroups[key],
+                    color: index % 2 === 0 ? "Good" : "Neutral"
                 });
-            }
+            });
 
-            return segmentData;
+            return sales;
+        },
+        _getDateKey: function (date, division) {
+            const d = new Date(date);
+            switch (division) {
+                case "day":
+                    return d.toLocaleDateString();
+                case "week":
+                    const week = Math.ceil(d.getDate() / 7);
+                    return `Week ${week} - ${d.getMonth() + 1}`;
+                case "month":
+                    return `${d.getMonth() + 1}/${d.getFullYear()}`;
+                case "year":
+                    return d.getFullYear().toString();
+            }
         }
     });
 });
