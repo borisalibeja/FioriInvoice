@@ -301,6 +301,62 @@ sap.ui.define([
             if (this.dateFilterDialog) {
                 this.dateFilterDialog.close();
             }
-        }
+        },
+
+        openCurrencyDropdown: function (oEvent) {
+            const oButton = oEvent.getSource();
+            const oModel = this.getView().getModel("listModel");
+            const oData = oModel.getProperty("/results");
+        
+            if (!this._oCurrencyPopover) {
+                // Create the Popover dynamically
+                this._oCurrencyPopover = new sap.m.Popover({
+                    title: "Select Currency",
+                    content: {
+                        path: "/uniqueCurrencies",
+                        template: new sap.m.StandardListItem({
+                            title: "{key}",
+                            press: this.onCurrencySelected.bind(this) // Bind selection handler
+                        })
+                    }
+                });
+                this.getView().addDependent(this._oCurrencyPopover);
+            }
+        
+            // Update the Popover with unique currencies
+            const uniqueCurrencies = [...new Set(oData.map(item => item.Curr))].map(currency => ({ key: currency }));
+            const popoverModel = new JSONModel({ uniqueCurrencies });
+            this._oCurrencyPopover.setModel(popoverModel);
+            this._oCurrencyPopover.bindAggregation("content", {
+                path: "/uniqueCurrencies",
+                template: new sap.m.StandardListItem({
+                    title: "{key}",
+                    type: "Active",
+                    press: this.onCurrencySelected.bind(this) // Handle filter selection
+                })
+            });
+        
+            // Open Popover
+            this._oCurrencyPopover.openBy(oButton);
+        },
+        onCurrencySelected: function (oEvent) {
+            const selectedCurrency = oEvent.getSource().getTitle(); // Get selected currency
+            const oTable = this.getView().byId("_IDGenTable1");
+            const oBinding = oTable.getBinding("rows");
+        
+            if (selectedCurrency) {
+                const oFilter = new sap.ui.model.Filter("Curr", sap.ui.model.FilterOperator.EQ, selectedCurrency);
+                oBinding.filter([oFilter]);
+            } else {
+                oBinding.filter([]); // Clear filter if no selection
+            }
+        
+            // Close Popover
+            if (this._oCurrencyPopover) {
+                this._oCurrencyPopover.close();
+            }
+        },
+               
+
     });
 });
