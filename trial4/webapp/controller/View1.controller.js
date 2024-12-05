@@ -252,6 +252,55 @@ sap.ui.define([
         _getAppModulePath: function () {
             const appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
             return jQuery.sap.getModulePath(appId.replaceAll(".", "/"));
+        },
+        openDateFilterDialog: function () {
+            const oView = this.getView();
+            if (!this.dateFilterDialog) {
+                this.dateFilterDialog = oView.byId("dateFilterDialog");
+            }
+            this.dateFilterDialog.open();
+        },
+        onFilterDate: function () {
+            const oView = this.getView();
+            const oTable = oView.byId("_IDGenTable1");
+            const startDate = oView.byId("startDateFilter").getDateValue();
+            const endDate = oView.byId("endDateFilter").getDateValue();
+        
+            if (!startDate || !endDate) {
+                sap.m.MessageToast.show("Please select both start and end dates.");
+                return;
+            }
+        
+            // Convert dates to the same format used in your data
+            const formattedStartDate = startDate.toISOString().split("T")[0];
+            const formattedEndDate = endDate.toISOString().split("T")[0];
+        
+            // Access the model data
+            const oModel = this.getView().getModel("listModel");
+            const oData = oModel.getProperty("/results");
+        
+            // Filter the data based on the date range
+            const filteredData = oData.filter(item => {
+                const invDate = new Date(item.Invdate).toISOString().split("T")[0];
+                return invDate >= formattedStartDate && invDate <= formattedEndDate;
+            });
+        
+            if (filteredData.length === 0) {
+                sap.m.MessageToast.show("No data found for the selected date range.");
+                return;
+            }
+        
+            // Update the model with filtered data
+            const filteredModel = new JSONModel({ results: filteredData });
+            oTable.setModel(filteredModel, "listModel");
+        
+            // Close the dialog
+            this.dateFilterDialog.close();
+        },
+        closeDateFilterDialog: function () {
+            if (this.dateFilterDialog) {
+                this.dateFilterDialog.close();
+            }
         }
     });
 });

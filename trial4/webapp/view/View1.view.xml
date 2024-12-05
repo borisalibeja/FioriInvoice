@@ -65,6 +65,16 @@
 				<!-- Spacer to ensure elements stay centered -->
 				
 			</m:Toolbar>
+			<m:Dialog id="dateFilterDialog" title="Filter By Date">
+				<m:VBox id="_IDGenVBox6" class="sapUiSmallMargin">
+					<m:Label id="_IDGenLabel14" text="Select Start Date" />
+					<m:DatePicker id="startDateFilter" width="100%" />
+					<m:Label id="_IDGenLabel15" text="Select End Date" />
+					<m:DatePicker id="endDateFilter" width="100%" />
+					<m:Button id="_IDGenButton4" text="Apply" press="onFilterDate" type="Emphasized" />
+					<m:Button id="_IDGenButton5" text="Cancel" press="closeDateFilterDialog" type="Transparent" />
+				</m:VBox>
+			</m:Dialog>
 
 			<Table id="_IDGenTable1"
 				rows="{listModel>/results}"
@@ -83,7 +93,11 @@
 					</Column>
 
 					<Column id="_IDGenColumn2" width="11rem">
-						<m:Label id="_IDGenLabel2" text="{i18n>Invdate}" />
+					    <m:HBox id="_IDGenHBox11">
+							<m:Label id="_IDGenLabel2" text="{i18n>Invdate}" />
+							<m:ToolbarSpacer id="_IDGenToolbarSpacer" width="10px" /> <!-- Add some space -->
+							<m:Button id="filterButton" icon="sap-icon://filter" press="openDateFilterDialog" tooltip="Filter by Date" />
+						</m:HBox>
 						<template>
 							<m:Text id="_IDGenText2" text="{listModel>Invdate}" wrapping="false" />
 						</template>
