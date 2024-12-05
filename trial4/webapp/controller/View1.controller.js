@@ -162,8 +162,8 @@ sap.ui.define([
             const oBinding = this.byId("_IDGenTable1").getBinding("rows");
 
             const aFilters = sQuery ? [
-                "Invno", "Csname", "Name2", "Stcd1", "Stcd2",
-                "Smtp_addr", "Street", "City1", "Tel_number", "Stkzn"
+                "Invno", "Csname", "Prod1", "Prod2", "Prod3",
+                "Prod4", "Prod5"
             ].map(field => new Filter(field, FilterOperator.Contains, sQuery)) : [];
 
             oBinding.filter(aFilters.length ? new Filter(aFilters, false) : []);
@@ -293,14 +293,36 @@ sap.ui.define([
             // Update the model with filtered data
             const filteredModel = new JSONModel({ results: filteredData });
             oTable.setModel(filteredModel, "listModel");
+
         
             // Close the dialog
             this.dateFilterDialog.close();
         },
         closeDateFilterDialog: function () {
+            const oView = this.getView();
+
             if (this.dateFilterDialog) {
+                // Clear the date filters
+                oView.byId("startDateFilter").setValue(null);
+                oView.byId("endDateFilter").setValue(null);
+        
+                // Clear filters on the table binding
+                const oTable = oView.byId("_IDGenTable1");
+                const oBinding = oTable.getBinding("rows");
+                oBinding.filter([]); // Clear all filters
+        
+                // Re-fetch data from the server to refresh the table
+                this._callToDB();
+                // Refresh the table UI after reloading data
+                oTable.getModel("listModel").refresh(true);
+
+                this.getOwnerComponent().getRouter().navTo("RouteView1");
+        
+                // Close the dialog
                 this.dateFilterDialog.close();
+  
             }
+
         },
 
         openCurrencyDropdown: function (oEvent) {

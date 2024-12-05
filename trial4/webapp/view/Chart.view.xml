@@ -68,18 +68,22 @@
 
                         <!-- Chart Navigation -->
             <m:FlexBox id="navigationBox" direction="Row" justifyContent="Center" alignItems="Center">
-                <m:Button id="prevButton" text="Back" press="onNavigateBack" />
-                <m:Button id="nextButton" text="Forward" press="onNavigateForward" />
+                <m:Button id="prevButton" icon="sap-icon://navigation-left-arrow" press="onNavigateBack" type="Transparent" tooltip="Previous" width="6rem"  />
+                <m:ToolbarSpacer id="_IDGenToolbarSpacer3" width="20px" /> <!-- Add space between label and button -->
+                <m:Button id="nextButton" icon="sap-icon://navigation-right-arrow" press="onNavigateForward" type="Transparent" tooltip="Next" width="6rem" />
+
             </m:FlexBox>
 
-            <!-- Go Back Button -->
-			<m:Button id="fakebutton" text="{i18n>GoBack}"
-				press="onPress">
-				<m:layoutData>
-					<m:FlexItemData id="fakebutton2" growFactor="1" />
-				</m:layoutData>
-			</m:Button>
-
+            <m:FlexBox id="_IDGenFlexBox">
+                <!-- Go Back Button -->
+                <m:ToolbarSpacer id="_IDGenToolbarSpacer4"  width="20px" /> <!-- Add space between label and button -->
+                <m:Button id="fakebutton" text="{i18n>GoBack}"
+                    press="onPress" width="60px">
+                    <m:layoutData>
+                        <m:FlexItemData id="fakebutton2" growFactor="1" />
+                    </m:layoutData>
+                </m:Button>
+            </m:FlexBox>
 		</m:content>
 
     </m:Page>
