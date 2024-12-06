@@ -45,7 +45,7 @@
 
 			<m:Toolbar id="_IDGenToolbar2" style="Clear" />
 
-			<!-- Toolbar with Action Buttons and Title -->
+			<!-- Toolbar with Action Buttons -->
 			<m:Toolbar id="mainToolbar">
 				<!-- Search Field on the Left -->
 				<m:SearchField 

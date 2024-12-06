@@ -319,8 +319,6 @@ sap.ui.define([
         
             // Close the dialog
             this.dateFilterDialog.close();
-
-            
         },
 
         openCurrencyDropdown: function (oEvent) {
@@ -332,13 +330,24 @@ sap.ui.define([
                 // Create the Popover dynamically
                 this._oCurrencyPopover = new sap.m.Popover({
                     title: "Select Currency",
-                    content: {
-                        path: "/uniqueCurrencies",
-                        template: new sap.m.StandardListItem({
-                            title: "{key}",
-                            press: this.onCurrencySelected.bind(this) // Bind selection handler
+                    contentWidth: "200px",
+                    content: [
+                        new sap.m.List({
+                            items: {
+                                path: "/uniqueCurrencies",
+                                template: new sap.m.StandardListItem({
+                                    title: "{key}",
+                                    type: "Active",
+                                    press: this.onCurrencySelected.bind(this) // Handle filter selection
+                                })
+                            }
+                        }),
+                        new sap.m.Button({
+                            text: "Clear",
+                            type: "Transparent",
+                            press: this.onClearCurrencyFilter.bind(this) // Add clear functionality
                         })
-                    }
+                    ]
                 });
                 this.getView().addDependent(this._oCurrencyPopover);
             }
@@ -347,14 +356,6 @@ sap.ui.define([
             const uniqueCurrencies = [...new Set(oData.map(item => item.Curr))].map(currency => ({ key: currency }));
             const popoverModel = new JSONModel({ uniqueCurrencies });
             this._oCurrencyPopover.setModel(popoverModel);
-            this._oCurrencyPopover.bindAggregation("content", {
-                path: "/uniqueCurrencies",
-                template: new sap.m.StandardListItem({
-                    title: "{key}",
-                    type: "Active",
-                    press: this.onCurrencySelected.bind(this) // Handle filter selection
-                })
-            });
         
             // Open Popover
             this._oCurrencyPopover.openBy(oButton);
@@ -376,6 +377,18 @@ sap.ui.define([
                 this._oCurrencyPopover.close();
             }
         },
+        onClearCurrencyFilter: function () {
+            const oTable = this.getView().byId("_IDGenTable1");
+            const oBinding = oTable.getBinding("rows");
+        
+            // Clear any applied filters
+            oBinding.filter([]);
+        
+            // Close the Popover
+            if (this._oCurrencyPopover) {
+                this._oCurrencyPopover.close();
+            }
+        }
                
 
     });
