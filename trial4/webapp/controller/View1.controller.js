@@ -301,28 +301,26 @@ sap.ui.define([
         closeDateFilterDialog: function () {
             const oView = this.getView();
 
-            if (this.dateFilterDialog) {
-                // Clear the date filters
-                oView.byId("startDateFilter").setValue(null);
-                oView.byId("endDateFilter").setValue(null);
+            // Clear the date filters
+            oView.byId("startDateFilter").setValue(null);
+            oView.byId("endDateFilter").setValue(null);
         
-                // Clear filters on the table binding
-                const oTable = oView.byId("_IDGenTable1");
-                const oBinding = oTable.getBinding("rows");
-                oBinding.filter([]); // Clear all filters
+            // Reset the table model to the original model
+            const oTable = oView.byId("_IDGenTable1");
+            const originalModel = this.getView().getModel("listModel"); // Fetch the original model
+            oTable.setModel(originalModel, "listModel");
         
-                // Re-fetch data from the server to refresh the table
-                this._callToDB();
-                // Refresh the table UI after reloading data
-                oTable.getModel("listModel").refresh(true);
+            // Clear any filters applied to the table's binding
+            const oBinding = oTable.getBinding("rows");
+            oBinding.filter([]); // Clear all filters
+        
+            // Re-fetch data and refresh the model
+            this._callToDB();
+        
+            // Close the dialog
+            this.dateFilterDialog.close();
 
-                this.getOwnerComponent().getRouter().navTo("RouteView1");
-        
-                // Close the dialog
-                this.dateFilterDialog.close();
-  
-            }
-
+            
         },
 
         openCurrencyDropdown: function (oEvent) {
