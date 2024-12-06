@@ -1,10 +1,11 @@
-<mvc:View controllerName="trial4.controller.View1"
+<mvc:View xmlns:rowmodes="sap.ui.table.rowmodes" controllerName="trial4.controller.View1"
     xmlns:mvc="sap.ui.core.mvc" 
     displayBlock="true"
     xmlns="sap.ui.table"
 	xmlns:u="sap.ui.unified"
 	xmlns:c="sap.ui.core"
 	xmlns:core="sap.ui.core"
+
 	xmlns:m="sap.m" >
 
     <m:Page id="View1" title="{i18n>tableName}">
@@ -72,7 +73,7 @@
 					<m:Label id="_IDGenLabel15" text="Select End Date" />
 					<m:DatePicker id="endDateFilter" width="100%" />
 					<m:Button id="_IDGenButton4" text="Apply" press="onFilterDate" type="Emphasized" />
-					<m:Button id="_IDGenButton5" text="Cancel" press="closeDateFilterDialog" type="Transparent" />
+					<m:Button id="_IDGenButton5" text="Clear" press="closeDateFilterDialog" type="Transparent" />
 				</m:VBox>
 			</m:Dialog>
 
@@ -80,8 +81,10 @@
 				rows="{listModel>/results}"
 				selectionMode="MultiToggle"
 				paste="onPaste"
-				ariaLabelledBy="title">
-
+				ariaLabelledBy="title" rowMode="">
+				<rowMode>
+					<rowmodes:Fixed id="_IDGenFixed" rowCount="13" />
+				</rowMode>
 				
 				<columns>
 

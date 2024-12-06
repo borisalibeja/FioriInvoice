@@ -25,7 +25,6 @@
                         valueFormat="yyyy-MM-dd" 
                         displayFormat="long" />
 
-                    <m:Input id="_IDGenInput1" placeholder="{i18n>Invdes}" width="200px" />
 
                     <m:Input id="_IDGenInput2" placeholder="{i18n>Csname}" width="200px"  />
 
@@ -48,10 +47,11 @@
                         <core:Item id="_IDGenItem" key="{currencyModel>key}" text="{currencyModel>text}" />
                     </m:ComboBox>
 
-                    <!-- Save and Cancel Buttons -->
+                    <m:Input id="_IDGenInput1" placeholder="{i18n>Invdes}" width="200px" />
                 </m:VBox>
             </m:HBox>
             
+                <!-- Save and Cancel Buttons -->
             <m:Toolbar id="_IDGenToolbar" width="150px">
                 <m:Button id="_IDGenButton2" text="{i18n>Save}" press="onSave" />
                 <m:Button id="_IDGenButton3" text="{i18n>Cancel}" press="onCancel" />
