@@ -1,13 +1,14 @@
  
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
+    "trial4/utils/DataManager",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator"
     
 ],
-function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
+function (Controller, DataManager, JSONModel, MessageBox, Filter, FilterOperator) {
     "use strict";
  
     return Controller.extend("trial4.controller.Chart", {
@@ -63,17 +64,12 @@ function (Controller, JSONModel, MessageBox, Filter, FilterOperator) {
             this._displayChart(chartData);
         },
 
-        _getAppModulePath: function () {
-            const appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
-            return jQuery.sap.getModulePath(appId.replaceAll(".", "/"));
-        },
-
         _callToDB: function () {
-            const appModulePath = this._getAppModulePath();
+            const url = DataManager.getOdataUrl(this.getOwnerComponent());
             const oModel = new JSONModel();
 
             $.ajax({
-                url: `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet`,
+                url: url,
                 type: "GET",
                 dataType: "json",
                 headers: { "X-CSRF-Token": "Fetch" },
