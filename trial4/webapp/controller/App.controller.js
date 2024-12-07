@@ -16,6 +16,7 @@ sap.ui.define([
        * @public
        */
       onInit: function () {
+        
           // Application-level initialization logic can be added here if needed.
       }
   });

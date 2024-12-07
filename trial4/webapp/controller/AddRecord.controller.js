@@ -6,11 +6,11 @@
  */
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "trial4/utils/CSRFTokenManager",
+    "trial4/utils/DataManager",
     "sap/m/MessageBox",
     "sap/m/MessageToast",
     "trial4/model/formatter"
-], function (Controller, CSRFTokenManager, MessageBox, MessageToast, formatter) {
+], function (Controller, DataManager, MessageBox, MessageToast, formatter) {
     "use strict";
 
     return Controller.extend("trial4.controller.AddRecord", {
@@ -42,15 +42,10 @@ sap.ui.define([
          * @public
          */
         onSave: function () {
-            const csrfToken = CSRFTokenManager.getToken();
-
-            if (!csrfToken) {
-                MessageBox.error("CSRF token is not available. Please fetch it first.");
-                return;
-            }
-
-            const oView = this.getView();
+            const url = DataManager.getOdataUrl(this.getOwnerComponent());
+            const csrfToken = DataManager.getToken();
             const aRequiredFields = this._getRequiredFields();
+            const oNewRecordData = this._getRecordData();
 
             // Validate required fields
             if (!this._validateFields(aRequiredFields)) {
@@ -58,12 +53,9 @@ sap.ui.define([
                 return;
             }
 
-            const oNewRecordData = this._getRecordData();
-            const appModulePath = this._getAppModulePath();
-
             // Send POST request to add the new record
             $.ajax({
-                url: `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet`,
+                url: url,
                 type: "POST",
                 contentType: "application/json",
                 headers: { "X-CSRF-Token": csrfToken },
@@ -141,17 +133,6 @@ sap.ui.define([
                 Gross: gross.toFixed(2),
                 Curr: oView.byId("_IDGenInput11").getSelectedKey()
             };
-        },
-
-        /**
-         * Retrieves the application module path from the manifest.
-         * @private
-         * @returns {string} Application module path.
-         */
-        _getAppModulePath: function () {
-            const appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
-            const appPath = appId.replaceAll(".", "/");
-            return jQuery.sap.getModulePath(appPath);
         },
 
         /**

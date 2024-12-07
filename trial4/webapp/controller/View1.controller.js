@@ -6,13 +6,13 @@
  */
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "trial4/utils/CSRFTokenManager",
+    "trial4/utils/DataManager",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
     "sap/m/MessageToast",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator"
-], function (Controller, CSRFTokenManager, JSONModel, MessageBox, MessageToast, Filter, FilterOperator) {
+], function (Controller, DataManager, JSONModel, MessageBox, MessageToast, Filter, FilterOperator) {
     "use strict";
 
     return Controller.extend("trial4.controller.View1", {
@@ -94,20 +94,15 @@ sap.ui.define([
          * @param {Function} callBack - Callback function to execute after deletion.
          */
         _deleteRecords: function (aInvnoValues, callBack) {
-            const csrfToken = CSRFTokenManager.getToken();
-
-            if (!csrfToken) {
-                MessageBox.error("CSRF token is not available. Please fetch it first.");
-                return;
-            }
-
-            const appModulePath = this._getAppModulePath();
+            const csrfToken = DataManager.getToken();
+            const url = DataManager.getOdataUrl(this.getOwnerComponent());
             const oResourceModel = sap.ui.getCore().getModel("i18n");
             const oResourceBundle = oResourceModel.getResourceBundle();
+            
             const aPromises = aInvnoValues.map((sInvno) =>
                 new Promise((resolve, reject) => {
                     $.ajax({
-                        url: `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet(Invno='${sInvno}')`,
+                        url: `${url}(Invno='${sInvno}')`,
                         type: "DELETE",
                         headers: { "X-CSRF-Token": csrfToken },
                         success: () => {
@@ -132,17 +127,17 @@ sap.ui.define([
          * @private
          */
         _callToDB: function () {
-            const appModulePath = this._getAppModulePath();
+            const url = DataManager.getOdataUrl(this.getOwnerComponent());
             const oModel = new JSONModel();
 
             $.ajax({
-                url: `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet`,
+                url: url,
                 type: "GET",
                 dataType: "json",
                 headers: { "X-CSRF-Token": "Fetch" },
                 success: (data, textStatus, jqXHR) => {
                     const token = jqXHR.getResponseHeader("X-CSRF-Token");
-                    CSRFTokenManager.setToken(token);
+                    DataManager.setToken(token);
                     oModel.setData(data.d);
                     this.getView().setModel(oModel, "listModel");
                 },
@@ -162,8 +157,7 @@ sap.ui.define([
             const oBinding = this.byId("_IDGenTable1").getBinding("rows");
 
             const aFilters = sQuery ? [
-                "Invno", "Csname", "Prod1", "Prod2", "Prod3",
-                "Prod4", "Prod5"
+                "Invno", "Csname", "Prod1", "Prod2", "Prod3", "Prod4", "Prod5"
             ].map(field => new Filter(field, FilterOperator.Contains, sQuery)) : [];
 
             oBinding.filter(aFilters.length ? new Filter(aFilters, false) : []);
@@ -242,16 +236,6 @@ sap.ui.define([
 
             this.getOwnerComponent().getRouter().navTo("RouteEditRecord", { Invno: sInvno });
             sap.ui.getCore().getEventBus().publish("dataChannel", "dataUpdated");
-        },
-
-        /**
-         * Retrieves the application module path from the manifest.
-         * @private
-         * @returns {string} Application module path.
-         */
-        _getAppModulePath: function () {
-            const appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
-            return jQuery.sap.getModulePath(appId.replaceAll(".", "/"));
         },
         openDateFilterDialog: function () {
             const oView = this.getView();
@@ -389,7 +373,5 @@ sap.ui.define([
                 this._oCurrencyPopover.close();
             }
         }
-               
-
     });
 });

@@ -1,12 +1,28 @@
 /**
  * @namespace trial4.utils
- * @module CSRFTokenManager
+ * @module DataManager
  * A utility module for managing the CSRF token used in OData requests.
  */
 sap.ui.define([], function () {
     let csrfToken = null;
+    let url = null;
 
     return {
+        /**
+         * Generates the base invoice URL dynamically based on the application's module path and saves it.
+         * @param {sap.ui.core.Component} component - The SAPUI5 component instance to access the manifest.
+         * @returns {string} - The dynamically constructed base invoice URL.
+         * @public
+         */
+        getOdataUrl: function (component) {
+            const appId = component.getManifestEntry("/sap.app/id");
+            const appPath = appId.replaceAll(".", "/");
+            const appModulePath = jQuery.sap.getModulePath(appPath);
+            url = `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet`;
+            console.log("URL generated and saved:", url);
+            return url;
+
+        },
         /**
          * Sets the CSRF token.
          * Validates the provided token before setting it.
