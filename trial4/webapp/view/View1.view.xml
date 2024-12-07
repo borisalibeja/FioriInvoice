@@ -1,13 +1,14 @@
 <mvc:View xmlns:rowmodes="sap.ui.table.rowmodes" controllerName="trial4.controller.View1"
+	 xmlns:html="http://www.w3.org/1999/xhtml"
     xmlns:mvc="sap.ui.core.mvc" 
     displayBlock="true"
     xmlns="sap.ui.table"
 	xmlns:u="sap.ui.unified"
 	xmlns:c="sap.ui.core"
 	xmlns:core="sap.ui.core"
-
 	xmlns:m="sap.m" >
 
+ <m:App id="app">
     <m:Page id="View1" title="{i18n>tableName}">
 
 		<m:customHeader>
@@ -181,5 +182,6 @@
 			</m:Button>
 		</m:content>
     </m:Page>
+	</m:App>
 
 </mvc:View>

@@ -102,7 +102,7 @@
       "routes": [
         {
           "name": "RouteView1",
-          "pattern": ":?query:",
+          "pattern": "View1",
           "target": [
              "TargetView1"
             
@@ -172,10 +172,10 @@
       }
     },
     "rootView": {
-      "viewName": "trial4.view.App",
+      "viewName": "trial4.view.View1",
       "type": "XML",
       "async": true,
-      "id": "App"
+      "id": "app"
     }
   }
 }
