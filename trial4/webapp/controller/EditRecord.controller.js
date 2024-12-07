@@ -22,14 +22,19 @@ sap.ui.define([
          * @public
          */
         onInit: function () {
+            
             this.getOwnerComponent().getRouter()
-                .getRoute("RouteEditRecord")
-                .attachPatternMatched(this._onObjectMatched, this);
+            .getRoute("RouteEditRecord")
+            .attachPatternMatched(this._onObjectMatched, this);
             // Load currency data from JSON file
             const oCurrencyModel = new sap.ui.model.json.JSONModel();
             oCurrencyModel.loadData("model/currency.json");
             this.getView().setModel(oCurrencyModel, "currencyModel");
-
+            
+            const oDatePicker = this.byId("_IDGenDatePicker1");
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Normalize time to midnight
+            oDatePicker.setMinDate(today); // Programmatically set the minDate
         },
 
         /**

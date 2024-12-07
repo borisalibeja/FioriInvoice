@@ -20,7 +20,6 @@
                         id="_IDGenDatePicker1" 
                         placeholder="{i18n>Invdate}" 
                         width="200px" 
-                        minDate="{path: '', formatter: '.formatter.todayDate'}" 
                         value="{recordModel>/Invdate}"
                         valueFormat="yyyy-MM-dd" 
                         displayFormat="long" />

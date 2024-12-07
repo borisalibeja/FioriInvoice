@@ -7,16 +7,21 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "trial4/utils/DataManager",
+    "trial4/model/formatter",
     "sap/m/MessageBox",
     "sap/m/MessageToast",
-    "trial4/model/formatter"
-], function (Controller, DataManager, MessageBox, MessageToast, formatter) {
+], function (Controller, DataManager, formatter, MessageBox, MessageToast ) {
     "use strict";
 
     return Controller.extend("trial4.controller.AddRecord", {
         formatter: formatter,
         
         onInit: function () {
+            const oDatePicker = this.byId("_IDGenDatePicker");
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Normalize time to midnight
+            oDatePicker.setMinDate(today); // Programmatically set the minDate
+            
             // Attach route pattern matched to update the i18n model dynamically
             this.getOwnerComponent().getRouter()
                 .getRoute("RouteAddRecord") // Replace with the correct route name for this view
