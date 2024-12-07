@@ -6,12 +6,12 @@
  */
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "trial4/utils/CSRFTokenManager",
+    "trial4/utils/DataManager",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
     "sap/m/MessageToast",
     "trial4/model/formatter"
-], function (Controller, CSRFTokenManager, JSONModel, MessageBox, MessageToast, formatter) {
+], function (Controller, DataManager, JSONModel, MessageBox, MessageToast, formatter) {
     "use strict";
 
     return Controller.extend("trial4.controller.EditRecord", {
@@ -57,10 +57,10 @@ sap.ui.define([
          * @param {string} sInvno - Customer ID for the record to fetch.
          */
         _fetchRecordData: function (sInvno) {
-            const appModulePath = this._getAppModulePath();
+            const url = DataManager.getOdataUrl(this.getOwnerComponent());
 
             $.ajax({
-                url: `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet(Invno='${sInvno}')`,
+                url: `${url}(Invno='${sInvno}')`,
                 type: "GET",
                 dataType: "json",
                 success: (data) => {
@@ -83,24 +83,18 @@ sap.ui.define([
          * @public
          */
         onSaveChanges: function () {
-            const csrfToken = CSRFTokenManager.getToken();
-
-            if (!csrfToken) {
-                MessageBox.error("CSRF token is not available. Please fetch it first.");
-                return;
-            }
-
+            const url = DataManager.getOdataUrl(this.getOwnerComponent());
+            const csrfToken = DataManager.getToken();
+            const oUpdatedData = this.getView().getModel("recordModel").getData();
             const aRequiredFields = this._getRequiredFields();
+
             if (!this._validateFields(aRequiredFields)) {
                 MessageBox.error("Please fill all required fields.");
                 return;
             }
 
-            const oUpdatedData = this.getView().getModel("recordModel").getData();
-            const appModulePath = this._getAppModulePath();
-
             $.ajax({
-                url: `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet(Invno='${this.sInvno}')`,
+                url: `${url}(Invno='${this.sInvno}')`,
                 type: "PUT",
                 contentType: "application/json",
                 headers: { "X-CSRF-Token": csrfToken },
@@ -122,17 +116,6 @@ sap.ui.define([
          */
         onCancel: function () {
             this.getOwnerComponent().getRouter().navTo("RouteView1");
-        },
-
-        /**
-         * Retrieves the application module path from the manifest.
-         * @private
-         * @returns {string} Application module path.
-         */
-        _getAppModulePath: function () {
-            const appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
-            const appPath = appId.replaceAll(".", "/");
-            return jQuery.sap.getModulePath(appPath);
         },
 
         /**
