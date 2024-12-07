@@ -43,7 +43,7 @@
                     <m:Input id="_IDGenInput1" placeholder="{i18n>Invdes}" width="200px" />
                 </m:VBox>
             </m:HBox>
-            
+        
                 <!-- Save and Cancel Buttons -->
             <m:Toolbar id="_IDGenToolbar" width="150px">
                 <m:Button id="_IDGenButton2" text="{i18n>Save}" press="onSave" />

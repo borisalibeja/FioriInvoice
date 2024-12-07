@@ -3,10 +3,10 @@
  */
 
 sap.ui.define([
-        "sap/ui/core/UIComponent",
-        "sap/ui/Device",
-        "trial4/model/models"
-    ],
+    "sap/ui/core/UIComponent",
+    "sap/ui/Device",
+    "trial4/model/models"
+],
     function (UIComponent, Device, models) {
         "use strict";
 

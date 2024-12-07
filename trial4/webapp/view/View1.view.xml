@@ -1,187 +1,174 @@
 <mvc:View xmlns:rowmodes="sap.ui.table.rowmodes" controllerName="trial4.controller.View1"
-	 xmlns:html="http://www.w3.org/1999/xhtml"
-    xmlns:mvc="sap.ui.core.mvc" 
-    displayBlock="true"
-    xmlns="sap.ui.table"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+	xmlns="sap.ui.table"
 	xmlns:u="sap.ui.unified"
 	xmlns:c="sap.ui.core"
 	xmlns:core="sap.ui.core"
-	xmlns:m="sap.m" >
+	xmlns:m="sap.m">
 
- <m:App id="app">
-    <m:Page id="View1" title="{i18n>tableName}">
+	<m:App id="app">
+		<m:Page id="View1" title="{i18n>tableName}">
 
-		<m:customHeader>
-			<m:Bar id="_IDGenBar1">
-			
-				<!-- Title on the left (use contentMiddle for centering) -->
-				<m:contentMiddle>
-					<m:Title id="_IDGenTitle" text="{i18n>tableName}" />
-				</m:contentMiddle>
+			<m:customHeader>
+				<m:Bar id="_IDGenBar1">
 
-				<!-- Language selection buttons on the right -->
-				<m:contentRight>
-					<m:Button id="buttonEnglish" text="{i18n>English}" press="onLanguageSelect">
-						<m:customData>
-							<core:CustomData key="langCode" value="en" />
-						</m:customData>
-					</m:Button>
+					<!-- Title on the left (use contentMiddle for centering) -->
+					<m:contentMiddle>
+						<m:Title id="_IDGenTitle" text="{i18n>tableName}" />
+					</m:contentMiddle>
 
-					<m:Button id="buttonItalian" text="{i18n>Italian}" press="onLanguageSelect">
-						<m:customData>
-							<core:CustomData key="langCode" value="it" />
-						</m:customData>
-					</m:Button>
+					<!-- Language selection buttons on the right -->
+					<m:contentRight>
+						<m:Button id="buttonEnglish" text="{i18n>English}" press="onLanguageSelect">
+							<m:customData>
+								<core:CustomData key="langCode" value="en" />
+							</m:customData>
+						</m:Button>
 
-					<m:Button id="buttonAlbanian" text="{i18n>Albanian}" press="onLanguageSelect">
-						<m:customData>
-							<core:CustomData key="langCode" value="al" />
-						</m:customData>
-					</m:Button>
-				</m:contentRight>
-				
-			</m:Bar>
-		</m:customHeader>
+						<m:Button id="buttonItalian" text="{i18n>Italian}" press="onLanguageSelect">
+							<m:customData>
+								<core:CustomData key="langCode" value="it" />
+							</m:customData>
+						</m:Button>
 
-        <m:content>
+						<m:Button id="buttonAlbanian" text="{i18n>Albanian}" press="onLanguageSelect">
+							<m:customData>
+								<core:CustomData key="langCode" value="al" />
+							</m:customData>
+						</m:Button>
+					</m:contentRight>
 
-			<m:Toolbar id="_IDGenToolbar2" style="Clear" />
+				</m:Bar>
+			</m:customHeader>
 
-			<!-- Toolbar with Action Buttons -->
-			<m:Toolbar id="mainToolbar">
-				<!-- Search Field on the Left -->
-				<m:SearchField 
-					id="plantSearchField" 
-					placeholder="{i18n>clientSearch}" 
-					width="200px"
-					liveChange="onSearch" />
+			<m:content>
 
-				<!-- Spacer to push buttons to the center -->
-				<m:ToolbarSpacer id="_IDGenToolbarSpacer2" />
+				<m:Toolbar id="_IDGenToolbar2" style="Clear" />
 
-				<!-- Buttons in the center -->
-				<m:Button id="addRecordButton" icon="sap-icon://add" text="{i18n>AddInvoice}" press="onAddRecord" />
-				<m:Button id="editRecordButton" icon="sap-icon://edit" text="{i18n>EditInvoice}" press="onEditRecord" />
-				<m:Button id="deleteRecordButton" icon="sap-icon://delete" text="{i18n>DeleteInvoice}" press="onDeleteRecord" />
-				
-			</m:Toolbar>
+				<!-- Toolbar with Action Buttons -->
+				<m:Toolbar id="mainToolbar">
+					<!-- Search Field on the Left -->
+					<m:SearchField id="plantSearchField" placeholder="{i18n>clientSearch}" width="200px" liveChange="onSearch" />
 
-			<!-- Date Filter -->
-			<m:Dialog id="dateFilterDialog" title="Filter By Date">
-				<m:VBox id="_IDGenVBox6" class="sapUiSmallMargin">
-					<m:Label id="_IDGenLabel14" text="Select Start Date" />
-					<m:DatePicker id="startDateFilter" width="100%" />
-					<m:Label id="_IDGenLabel15" text="Select End Date" />
-					<m:DatePicker id="endDateFilter" width="100%" />
-					<m:Button id="_IDGenButton4" text="Apply" press="onFilterDate" type="Emphasized" />
-					<m:Button id="_IDGenButton5" text="Clear" press="closeDateFilterDialog" type="Transparent" />
-				</m:VBox>
-			</m:Dialog>
+					<!-- Spacer to push buttons to the center -->
+					<m:ToolbarSpacer id="_IDGenToolbarSpacer2" />
 
-			<Table id="_IDGenTable1"
-				rows="{listModel>/results}"
-				selectionMode="MultiToggle"
-				paste="onPaste"
-				ariaLabelledBy="title" rowMode="">
-				<rowMode>
-					<rowmodes:Fixed id="_IDGenFixed" rowCount="13" />
-				</rowMode>
-				
-				<columns>
+					<!-- Buttons in the center -->
+					<m:Button id="addRecordButton" icon="sap-icon://add" text="{i18n>AddInvoice}" press="onAddRecord" />
+					<m:Button id="editRecordButton" icon="sap-icon://edit" text="{i18n>EditInvoice}" press="onEditRecord" />
+					<m:Button id="deleteRecordButton" icon="sap-icon://delete" text="{i18n>DeleteInvoice}" press="onDeleteRecord" />
 
-					<Column id="_IDGenColumn1" width="110px">
-						<m:Label id="_IDGenLabel1" text="{i18n>Invno}" />
+				</m:Toolbar>
+
+				<!-- Date Filter -->
+				<m:Dialog id="dateFilterDialog" title="Filter By Date">
+					<m:VBox id="_IDGenVBox6" class="sapUiSmallMargin">
+						<m:Label id="_IDGenLabel14" text="Select Start Date" />
+						<m:DatePicker id="startDateFilter" width="100%" />
+						<m:Label id="_IDGenLabel15" text="Select End Date" />
+						<m:DatePicker id="endDateFilter" width="100%" />
+						<m:Button id="_IDGenButton4" text="Apply" press="onFilterDate" type="Emphasized" />
+						<m:Button id="_IDGenButton5" text="Clear" press="closeDateFilterDialog" type="Transparent" />
+					</m:VBox>
+				</m:Dialog>
+
+				<Table id="_IDGenTable1" rows="{listModel>/results}" selectionMode="MultiToggle" paste="onPaste" ariaLabelledBy="title" rowMode="">
+					<rowMode>
+						<rowmodes:Fixed id="_IDGenFixed" rowCount="13" />
+					</rowMode>
+
+					<columns>
+
+						<Column id="_IDGenColumn1" width="110px">
+							<m:Label id="_IDGenLabel1" text="{i18n>Invno}" />
+							<template>
+								<m:Text id="_IDGenText1" text="{listModel>Invno}" wrapping="false" />
+							</template>
+						</Column>
+
+						<Column id="_IDGenColumn2" width="11rem">
+							<m:HBox id="_IDGenHBox11">
+								<m:Label id="_IDGenLabel2" text="{i18n>Invdate}" />
+								<m:ToolbarSpacer id="_IDGenToolbarSpacer" width="10px" />
+								<!-- Add some space -->
+								<m:Button id="filterButton" icon="sap-icon://filter" press="openDateFilterDialog" tooltip="Filter by Date" />
+							</m:HBox>
+							<template>
+								<m:Text id="_IDGenText2" text="{listModel>Invdate}" wrapping="false" />
+							</template>
+						</Column>
+
+						<Column id="_IDGenColumn3" width="11rem">
+							<m:Label id="_IDGenLabel3" text="{i18n>Csname}" />
+							<template>
+								<m:Text id="_IDGenText3" text="{listModel>Csname}" wrapping="false" />
+							</template>
+						</Column>
+
+						<Column id="_IDGenColumn4" width="11rem">
+							<m:Label id="_IDGenLabel4" text="{i18n>Prod1}" />
+							<template>
+								<m:Text id="_IDGenText4" text="{listModel>Prod1}" wrapping="false" />
+							</template>
+						</Column>
+
+						<Column id="_IDGenColumn6" width="11rem">
+							<m:Label id="_IDGenLabel6" text="{i18n>Prod2}" />
+							<template>
+								<m:Text id="_IDGenText6" text="{listModel>Prod2}" wrapping="false" />
+							</template>
+						</Column>
+
+						<Column id="_IDGenColumn7" width="7rem">
+							<m:Label id="_IDGenLabel7" text="{i18n>Net}" />
+							<template>
+								<m:Text id="_IDGenText7" text="{listModel>Net}" wrapping="false" />
+							</template>
+						</Column>
+						<Column id="_IDGenColumn5" width="7rem">
+							<m:Label id="_IDGenLabel10" text="{i18n>Vat}" />
+							<template>
+								<m:Text id="_IDGenText20" text="{listModel>Vat}" wrapping="false" />
+							</template>
+						</Column>
+
+						<Column id="_IDGenColumn8" width="7rem">
+							<m:Label id="_IDGenLabel8" text="{i18n>Gross}" />
+							<template>
+								<m:Text id="_IDGenText8" text="{listModel>Gross}" wrapping="false" />
+							</template>
+						</Column>
+
+						<Column id="_IDGenColumn9" width="7rem">
+							<m:HBox id="_IDGenHBox16">
+								<m:Label id="_IDGenLabel9" text="{i18n>Curr}" />
+								<m:ToolbarSpacer id="_IDGenToolbarSpacer1" width="8px" />
+								<!-- Add space between label and button -->
+								<m:Button id="currencyFilterButton" text="" icon="sap-icon://filter" type="Transparent" press="openCurrencyDropdown" />
+							</m:HBox>
+							<template>
+								<m:Text id="_IDGenText9" text="{listModel>Curr}" wrapping="false" />
+							</template>
+						</Column>
+
+					</columns>
+					<Column id="_IDGendetails" width="9rem">
+						<m:Label id="_IDGendetailslabel" text="{i18n>Details}" />
 						<template>
-							<m:Text id="_IDGenText1" text="{listModel>Invno}" wrapping="false" />
+							<m:Button id="_IDGenButton" text="{i18n>ShowDetails}" press="handleDetailsPress"/>
 						</template>
 					</Column>
+				</Table>
 
-					<Column id="_IDGenColumn2" width="11rem">
-					    <m:HBox id="_IDGenHBox11">
-							<m:Label id="_IDGenLabel2" text="{i18n>Invdate}" />
-							<m:ToolbarSpacer id="_IDGenToolbarSpacer" width="10px" /> <!-- Add some space -->
-							<m:Button id="filterButton" icon="sap-icon://filter" press="openDateFilterDialog" tooltip="Filter by Date" />
-						</m:HBox>
-						<template>
-							<m:Text id="_IDGenText2" text="{listModel>Invdate}" wrapping="false" />
-						</template>
-					</Column>
-
-					<Column id="_IDGenColumn3" width="11rem">
-						<m:Label id="_IDGenLabel3" text="{i18n>Csname}" />
-						<template>
-							<m:Text id="_IDGenText3" text="{listModel>Csname}" wrapping="false" />
-						</template>
-					</Column>
-
-					<Column id="_IDGenColumn4" width="11rem">
-						<m:Label id="_IDGenLabel4" text="{i18n>Prod1}" />
-						<template>
-							<m:Text id="_IDGenText4" text="{listModel>Prod1}" wrapping="false" />
-						</template>
-					</Column>
-
-					<Column id="_IDGenColumn6" width="11rem">
-						<m:Label id="_IDGenLabel6" text="{i18n>Prod2}" />
-						<template>
-							<m:Text id="_IDGenText6" text="{listModel>Prod2}" wrapping="false" />
-						</template>
-					</Column>
-
-					<Column id="_IDGenColumn7" width="7rem">
-						<m:Label id="_IDGenLabel7" text="{i18n>Net}" />
-						<template>
-							<m:Text id="_IDGenText7" text="{listModel>Net}" wrapping="false" />
-						</template>
-					</Column>
-					<Column id="_IDGenColumn5"  width="7rem">
-						<m:Label id="_IDGenLabel10"  text="{i18n>Vat}" />
-						<template>
-							<m:Text id="_IDGenText20"  text="{listModel>Vat}" wrapping="false" />
-						</template>
-					</Column>
-
-					<Column id="_IDGenColumn8" width="7rem">
-						<m:Label id="_IDGenLabel8" text="{i18n>Gross}" />
-						<template>
-							<m:Text id="_IDGenText8" text="{listModel>Gross}" wrapping="false" />
-						</template>
-					</Column>
-
-					<Column id="_IDGenColumn9" width="7rem">
-						<m:HBox id="_IDGenHBox16">
-							<m:Label id="_IDGenLabel9" text="{i18n>Curr}" />
-							<m:ToolbarSpacer id="_IDGenToolbarSpacer1" width="8px" /> <!-- Add space between label and button -->
-							<m:Button 
-								id="currencyFilterButton" 
-								text="" 
-								icon="sap-icon://filter" 
-								type="Transparent" 
-								press="openCurrencyDropdown" />
-						</m:HBox>
-						<template>
-							<m:Text id="_IDGenText9" text="{listModel>Curr}" wrapping="false" />
-						</template>
-					</Column>
-
-				</columns>
-                <Column id="_IDGendetails" width="9rem">
-					<m:Label id="_IDGendetailslabel" text="{i18n>Details}" />
-					<template>
-						<m:Button id="_IDGenButton" text="{i18n>ShowDetails}" press="handleDetailsPress"/>
-					</template>
-				</Column>
-			</Table>
-
-            	<!-- change view button -->
-			<m:Button id="_IDGenButton1" text="{i18n>GenerateChart}"
-				press="onPress">
-				<m:layoutData>
-					<m:FlexItemData id="_IDGenFlexItemData" growFactor="1" />
-				</m:layoutData>
-			</m:Button>
-		</m:content>
-    </m:Page>
+				<!-- change view button -->
+				<m:Button id="_IDGenButton1" text="{i18n>GenerateChart}" press="onPress">
+					<m:layoutData>
+						<m:FlexItemData id="_IDGenFlexItemData" growFactor="1" />
+					</m:layoutData>
+				</m:Button>
+			</m:content>
+		</m:Page>
 	</m:App>
 
 </mvc:View>

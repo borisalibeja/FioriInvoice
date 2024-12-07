@@ -1,24 +1,18 @@
 <mvc:View controllerName="trial4.controller.Chart"
-    xmlns:mvc="sap.ui.core.mvc" 
-    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns:m="sap.m"
     xmlns:chart="sap.suite.ui.microchart"
-    xmlns:core="sap.ui.core" 
+    xmlns:core="sap.ui.core"
     xmlns:viz="sap.viz.ui5.controls"
     xmlns:viz.data="sap.viz.ui5.data"
-    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
-    >
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
 
 
     <m:Page id="chart" title="{i18n>ChartTitle}">
 
         <m:content>
             <!-- Filter Container -->
-            <m:FlexBox id="_IDGenFlexBox1"
-                direction="Row"
-                justifyContent="Start"
-                alignItems="Start"
-                class="sapUiSmallMargin">
+            <m:FlexBox id="_IDGenFlexBox1" direction="Row" justifyContent="Start" alignItems="Start" class="sapUiSmallMargin">
                 <!-- Time Frame Filters -->
                 <m:VBox id="_IDGenVBox" class="sapUiSmallMarginEnd">
                     <m:Label id="_IDGenLabel12" text="Select Time Frame:" />
@@ -38,8 +32,8 @@
                 </m:VBox>
 
                 <!-- Submit Button -->
-                <m:VBox id="_IDGenVBox4" class="sapUiSmallMarginEnd">                         
-                    <m:Label id="_IDGenLabel11"  text="" />
+                <m:VBox id="_IDGenVBox4" class="sapUiSmallMarginEnd">
+                    <m:Label id="_IDGenLabel11" text="" />
                     <m:Button id="showChartButton" text="Show Chart" press="onShowChart" />
                 </m:VBox>
             </m:FlexBox>
@@ -66,25 +60,26 @@
                 </viz:VizFrame>
             </m:FlexBox>
 
-                        <!-- Chart Navigation -->
+            <!-- Chart Navigation -->
             <m:FlexBox id="navigationBox" direction="Row" justifyContent="Center" alignItems="Center">
-                <m:Button id="prevButton" icon="sap-icon://navigation-left-arrow" press="onNavigateBack" type="Transparent" tooltip="Previous" width="6rem"  />
-                <m:ToolbarSpacer id="_IDGenToolbarSpacer3" width="20px" /> <!-- Add space between label and button -->
+                <m:Button id="prevButton" icon="sap-icon://navigation-left-arrow" press="onNavigateBack" type="Transparent" tooltip="Previous" width="6rem" />
+                <m:ToolbarSpacer id="_IDGenToolbarSpacer3" width="20px" />
+                <!-- Add space between label and button -->
                 <m:Button id="nextButton" icon="sap-icon://navigation-right-arrow" press="onNavigateForward" type="Transparent" tooltip="Next" width="6rem" />
 
             </m:FlexBox>
 
             <m:FlexBox id="_IDGenFlexBox">
                 <!-- Go Back Button -->
-                <m:ToolbarSpacer id="_IDGenToolbarSpacer4"  width="20px" /> <!-- Add space between label and button -->
-                <m:Button id="fakebutton" text="{i18n>GoBack}"
-                    press="onPress" width="60px">
+                <m:ToolbarSpacer id="_IDGenToolbarSpacer4" width="20px" />
+                <!-- Add space between label and button -->
+                <m:Button id="fakebutton" text="{i18n>GoBack}" press="onPress" width="60px">
                     <m:layoutData>
                         <m:FlexItemData id="fakebutton2" growFactor="1" />
                     </m:layoutData>
                 </m:Button>
             </m:FlexBox>
-		</m:content>
+        </m:content>
 
     </m:Page>
 

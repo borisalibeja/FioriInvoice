@@ -1,12 +1,11 @@
 <mvc:View controllerName="trial4.controller.EditRecord"
-    xmlns:mvc="sap.ui.core.mvc"
-    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.ui.table"
     xmlns:u="sap.ui.unified"
     xmlns:c="sap.ui.core"
     xmlns:core="sap.ui.core"
     xmlns:m="sap.m">
-    
+
     <m:Page id="EditRecord" title="{i18n>EditInvoice}">
         <m:content>
             <m:VBox id="_IDGenVBox2" class="sapUiMediumMarginBegin">
@@ -14,15 +13,9 @@
                 <!-- Display Invno as a non-editable field -->
                 <m:Label id="_IDGenLabel5" text="{i18n>Invno}" class="sapMLabelBold" />
                 <m:Text id="_IDGenText" text="{recordModel>/Invno}" width="150px" />
-                
+
                 <!-- Fields for Editing an Existing Record -->
-                <m:DatePicker 
-                        id="_IDGenDatePicker1" 
-                        placeholder="{i18n>Invdate}" 
-                        width="200px" 
-                        value="{recordModel>/Invdate}"
-                        valueFormat="yyyy-MM-dd" 
-                        displayFormat="long" />
+                <m:DatePicker id="_IDGenDatePicker1" placeholder="{i18n>Invdate}" width="200px" value="{recordModel>/Invdate}" valueFormat="yyyy-MM-dd" displayFormat="long" />
 
                 <m:Input id="_IDGenInput26" placeholder="{i18n>Csname}" value="{recordModel>/Csname}" width="200px" />
 
@@ -44,7 +37,7 @@
 
                 <m:ComboBox id="_IDGenInput20" width="200px" placeholder="{i18n>Curr}" selectedKey="{recordModel>/Curr}" items="{
                     path: 'currencyModel>/currencies'}">
-                    <core:Item id="_IDGenItem1"  key="{currencyModel>key}" text="{currencyModel>text}" />
+                    <core:Item id="_IDGenItem1" key="{currencyModel>key}" text="{currencyModel>text}" />
                 </m:ComboBox>
 
                 <m:Input id="_IDGenInput27" placeholder="{i18n>Invdes}" value="{recordModel>/Invdes}" width="200px" />

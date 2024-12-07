@@ -104,8 +104,7 @@
           "name": "RouteView1",
           "pattern": "View1",
           "target": [
-             "TargetView1"
-            
+            "TargetView1"
           ]
         },
         {
@@ -125,12 +124,16 @@
         {
           "name": "RouteAddRecord",
           "pattern": "addRecord",
-          "target": ["TargetAddRecord"]
+          "target": [
+            "TargetAddRecord"
+          ]
         },
         {
           "name": "RouteEditRecord",
           "pattern": "editRecord/{Invno}",
-          "target": ["TargetEditRecord"]
+          "target": [
+            "TargetEditRecord"
+          ]
         }
       ],
       "targets": {
@@ -163,11 +166,11 @@
           "viewName": "AddRecord"
         },
         "TargetEditRecord": {
-            "viewType": "XML",
-            "transition": "slide",
-            "clearControlAggregation": false,
-            "viewId": "EditRecord",
-            "viewName": "EditRecord"
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "EditRecord",
+          "viewName": "EditRecord"
         }
       }
     },
