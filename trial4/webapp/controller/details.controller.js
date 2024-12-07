@@ -6,9 +6,10 @@
  */
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
+    "trial4/utils/DataManager",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox"
-], function (Controller, JSONModel, MessageBox) {
+], function (Controller, DataManager, JSONModel, MessageBox) {
     "use strict";
 
     return Controller.extend("trial4.controller.details", {
@@ -65,13 +66,11 @@ sap.ui.define([
          * @returns {Promise<Object>} Resolves with customer data or rejects with an error message.
          */
         _fetchCustomerData: function (sInvno) {
-            const appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
-            const appPath = appId.replaceAll(".", "/");
-            const appModulePath = jQuery.sap.getModulePath(appPath);
+            const url = DataManager.getOdataUrl(this.getOwnerComponent());
 
             return new Promise((resolve, reject) => {
                 $.ajax({
-                    url: `${appModulePath}/odata/sap/opu/odata/sap/ZFIORI_INVOICE_PROJECT_SRV/zfiori_invoice_typeSet(Invno='${sInvno}')`,
+                    url: `${url}(Invno='${sInvno}')`,
                     type: "GET",
                     dataType: "json",
                     success: (data) => {
