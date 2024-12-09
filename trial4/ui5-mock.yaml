@@ -17,7 +17,7 @@ server:
           url: https://ui5.sap.com
         backend:
           - path: /
-            url: https://invoiceDest.dest
+            url: https://fiori_invoice_middleware.dest
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:

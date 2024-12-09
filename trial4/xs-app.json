@@ -3,10 +3,10 @@
   "authenticationMethod": "route",
   "routes": [
     {
-      "source": "^/odata/(.*)$",
+      "source": "^/invoice/(.*)$",
       "target": "$1",
       "authenticationType": "xsuaa",
-      "destination": "invoiceDest_CLONING",
+      "destination": "fiori_invoice_middleware",
       "csrfProtection": false
     },
     {
