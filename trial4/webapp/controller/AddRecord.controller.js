@@ -19,21 +19,22 @@ sap.ui.define(
       formatter: formatter,
 
       onInit: function () {
-        const oDatePicker = this.byId("_IDGenDatePicker");
-        const today = new Date();
-        today.setHours(0, 0, 0, 0); // Normalize time to midnight
-        oDatePicker.setMinDate(today); // Programmatically set the minDate
-
+        
         // Attach route pattern matched to update the i18n model dynamically
         this.getOwnerComponent()
-          .getRouter()
-          .getRoute("RouteAddRecord") // Replace with the correct route name for this view
-          .attachPatternMatched(this._onRouteMatched, this);
-
+        .getRouter()
+        .getRoute("RouteAddRecord") // Replace with the correct route name for this view
+        .attachPatternMatched(this._onRouteMatched, this);
+        
         // Load currency data from JSON file
         const oCurrencyModel = new sap.ui.model.json.JSONModel();
         oCurrencyModel.loadData("model/currency.json");
         this.getView().setModel(oCurrencyModel, "currencyModel");
+        
+        const oDatePicker = this.byId("_IDGenDatePicker");
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Normalize time to midnight
+        oDatePicker.setMinDate(today); // Programmatically set the minDate
       },
       _onRouteMatched: function () {
         // Refresh the i18n model when this route is matched
