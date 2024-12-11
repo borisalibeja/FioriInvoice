@@ -1,16 +1,22 @@
 # Fiori Invoice
 
-## Description
-This is a simple SAP Fiori application that interacts with an OData service to display and manage data. The app was generated using the SAP Fiori tools suite and is styled using the `sap_horizon` theme for a modern, responsive UI.
+## About
+This is a SAP Fiori application that interacts with BTP Cloud Middleware, which, in turn, communicates with an OData service to display and manage data. The app was generated using the SAP Fiori Tools suite and is styled with the sap_horizon theme to deliver a modern and responsive user interface.
 
 ## Features
-- Responsive Fiori UI built with UI5 (version 1.130.0).
-- All CRUD Operations available on the table
+- Responsive Fiori UI built using UI5 (version 1.130.0).
+- Supports CRUD operations on the table.
+- Includes auto-refresh functionality to update the view after each table operation.
+- Provides translations in English, Italian, and Albanian.
+- Offers filtering options for the Date and Currency columns.
+- Includes a search bar to search by name, product, or invoice number.
+- Features a dynamic chart to display sales data based on a specified time frame.
 
 ## Pre-requisites
 - [Node.js LTS](https://nodejs.org) (e.g., v20.x or higher).
 - [NPM](https://www.npmjs.com/) (v10.x or higher).
-- Active OData service at the specified URL or a local mock setup.
+- Active BTP Integation Suite at the specified URL.
+- Active OData service at the specified URL.
 
 ## Getting Started
 
