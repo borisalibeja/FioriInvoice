@@ -1,9 +1,3 @@
-/**
- * @namespace trial4.controller
- * @class
- * Main controller for the Trial 4 application.
- * Handles data fetching, CRUD operations, navigation, and event subscriptions.
- */
 sap.ui.define(
   [
     "sap/ui/core/mvc/Controller",
@@ -26,11 +20,7 @@ sap.ui.define(
     "use strict";
 
     return Controller.extend("trial4.controller.View1", {
-      /**
-       * Initializes the controller.
-       * Loads initial data and subscribes to event updates.
-       * @public
-       */
+      // Initialize the controller and subscribe to data updates
       onInit: function () {
         this._callToDB(); // Load initial data
         sap.ui
@@ -38,28 +28,15 @@ sap.ui.define(
           .getEventBus()
           .subscribe("dataChannel", "dataUpdated", this._onDataUpdated, this);
       },
-
-      /**
-       * Event handler for the "dataUpdated" event.
-       * Reloads data from the database.
-       * @private
-       */
+      // Handle data updates by reloading from the database
       _onDataUpdated: function () {
         this._callToDB();
       },
-
-      /**
-       * Navigates to the chart view.
-       * @public
-       */
+      // Navigate to the chart view
       onPress: function () {
         this.getOwnerComponent().getRouter().navTo("RouteChart");
       },
-
-      /**
-       * Deletes selected records from the table after confirmation.
-       * @public
-       */
+      // Handle the deletion of selected records
       onDeleteRecord: function () {
         const oTable = this.byId("_IDGenTable1");
         const aSelectedIndices = oTable.getSelectedIndices();
@@ -108,13 +85,7 @@ sap.ui.define(
           });
         }
       },
-
-      /**
-       * Deletes multiple records by sending DELETE requests to the OData service.
-       * @private
-       * @param {Array} aInvnoValues - List of customer numbers to delete.
-       * @param {Function} callBack - Callback function to execute after deletion.
-       */
+      // Perform deletion of records in the backend
       _deleteRecords: function (aInvnoValues, callBack) {
         const csrfToken = DataManager.getToken();
         const url = DataManager.getOdataUrl(this.getOwnerComponent());
@@ -148,11 +119,7 @@ sap.ui.define(
           .then(() => callBack && callBack())
           .catch((err) => console.error("Error in deletion:", err));
       },
-
-      /**
-       * Fetches data from the database and sets it in the model.
-       * @private
-       */
+      // Load data from the database and set it to the model
       _callToDB: function () {
         const url = DataManager.getOdataUrl(this.getOwnerComponent());
         const oModel = new JSONModel();
@@ -173,12 +140,7 @@ sap.ui.define(
           },
         });
       },
-
-      /**
-       * Filters the table based on the search query.
-       * @public
-       * @param {sap.ui.base.Event} oEvent - Event containing the search query.
-       */
+      // Change the language based on user selection
       onSearch: function (oEvent) {
         const sQuery = oEvent.getParameter("newValue");
         const oBinding = this.byId("_IDGenTable1").getBinding("rows");
@@ -198,11 +160,6 @@ sap.ui.define(
         oBinding.filter(aFilters.length ? new Filter(aFilters, false) : []);
       },
 
-      /**
-       * Changes the application language.
-       * @public
-       * @param {sap.ui.base.Event} oEvent - Event containing the selected language.
-       */
       onLanguageSelect: function (oEvent) {
         // Get the selected language code from the button's custom data
         let sLanguageCode = oEvent.getSource().getCustomData()[0].getValue();
@@ -222,12 +179,7 @@ sap.ui.define(
         // Update the language for the current view (binding updates automatically)
         this.getView().setModel(oResourceModel, "i18n");
       },
-
-      /**
-       * Navigates to the details page for the selected customer.
-       * @public
-       * @param {sap.ui.base.Event} oEvent - Event containing the selected context.
-       */
+      // Navigate to the details view for a selected record
       handleDetailsPress: function (oEvent) {
         const InvnoSelected = oEvent
           .getSource()
@@ -237,20 +189,12 @@ sap.ui.define(
           .getRouter()
           .navTo("RouteDetails", { Invno: InvnoSelected });
       },
-
-      /**
-       * Navigates to the "Add Record" page.
-       * @public
-       */
+      // Navigate to the add record view
       onAddRecord: function () {
         this.getOwnerComponent().getRouter().navTo("RouteAddRecord");
         sap.ui.getCore().getEventBus().publish("dataChannel", "dataUpdated");
       },
-
-      /**
-       * Navigates to the "Edit Record" page for the selected record.
-       * @public
-       */
+      // Navigate to the edit record view
       onEditRecord: function () {
         const oTable = this.byId("_IDGenTable1");
         const aSelectedIndices = oTable.getSelectedIndices();
@@ -279,6 +223,7 @@ sap.ui.define(
           .navTo("RouteEditRecord", { Invno: sInvno });
         sap.ui.getCore().getEventBus().publish("dataChannel", "dataUpdated");
       },
+      // Open the date filter dialog
       openDateFilterDialog: function () {
         const oView = this.getView();
         if (!this.dateFilterDialog) {
@@ -286,6 +231,7 @@ sap.ui.define(
         }
         this.dateFilterDialog.open();
       },
+      // Apply date filters to the table
       onFilterDate: function () {
         const oView = this.getView();
         const oTable = oView.byId("_IDGenTable1");
@@ -323,6 +269,7 @@ sap.ui.define(
         // Close the dialog
         this.dateFilterDialog.close();
       },
+      // Close the date filter dialog and reset filters
       closeDateFilterDialog: function () {
         const oView = this.getView();
 
@@ -345,7 +292,7 @@ sap.ui.define(
         // Close the dialog
         this.dateFilterDialog.close();
       },
-
+      // Open the currency filter popover
       openCurrencyDropdown: function (oEvent) {
         const oButton = oEvent.getSource();
         const oModel = this.getView().getModel("listModel");
@@ -387,6 +334,7 @@ sap.ui.define(
         // Open Popover
         this._oCurrencyPopover.openBy(oButton);
       },
+      // Filter the table by the selected currency
       onCurrencySelected: function (oEvent) {
         const selectedCurrency = oEvent.getSource().getTitle(); // Get selected currency
         const oTable = this.getView().byId("_IDGenTable1");
@@ -408,6 +356,7 @@ sap.ui.define(
           this._oCurrencyPopover.close();
         }
       },
+      // Clear the currency filter
       onClearCurrencyFilter: function () {
         const oTable = this.getView().byId("_IDGenTable1");
         const oBinding = oTable.getBinding("rows");

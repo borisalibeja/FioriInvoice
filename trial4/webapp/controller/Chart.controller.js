@@ -18,6 +18,9 @@ sap.ui.define(
     "use strict";
 
     return Controller.extend("trial4.controller.Chart", {
+      /**
+       * Initializes the controller by setting up route matching and loading data from the database.
+       */
       onInit: function () {
         // Attach route pattern matched to update the i18n model dynamically
         this.getOwnerComponent()
@@ -26,7 +29,9 @@ sap.ui.define(
           .attachPatternMatched(this._onRouteMatched, this);
         this._callToDB();
       },
-
+      /**
+       * Handles route matching and dynamically updates the i18n model for the view.
+       */
       _onRouteMatched: function () {
         // Refresh the i18n model when this route is matched
         let oResourceModel = sap.ui.getCore().getModel("i18n");
@@ -34,11 +39,15 @@ sap.ui.define(
           this.getView().setModel(oResourceModel, "i18n");
         }
       },
-
+      /**
+       * Navigates back to the main view.
+       */
       onPress: function () {
         this.getOwnerComponent().getRouter().navTo("RouteView1");
       },
-
+      /**
+       * Filters and processes the data based on user-selected criteria to display a sales chart.
+       */
       onShowChart: function () {
         const fromDate = this.getView().byId("fromDate").getDateValue();
         const toDate = this.getView().byId("toDate").getDateValue();
@@ -73,7 +82,9 @@ sap.ui.define(
         const chartData = this._generateChartData(filteredData, timeDivision);
         this._displayChart(chartData);
       },
-
+      /**
+       * Makes an AJAX call to the database to fetch the invoice data and sets it to the model.
+       */
       _callToDB: function () {
         const url = DataManager.getOdataUrl(this.getOwnerComponent());
         const oModel = new JSONModel();
@@ -92,32 +103,46 @@ sap.ui.define(
           },
         });
       },
+      /**
+       * Displays the chart by setting the filtered data to the chart model.
+       * Resets the navigation index for paginated display.
+       */
       _displayChart: function (data) {
         this.chartData = data; // Store data for navigation
         this.currentIndex = 0; // Reset navigation index
         this._updateChart();
       },
-
+      /**
+       * Updates the chart data displayed on the view, based on the current index.
+       */
       _updateChart: function () {
         const chartModel = new JSONModel(
           this.chartData.slice(this.currentIndex, this.currentIndex + 7)
         );
         this.getView().setModel(chartModel, "chartModel");
       },
+      /**
+       * Navigates forward through the paginated chart data, if there is more data available.
+       */
       onNavigateForward: function () {
         if (this.currentIndex + 7 < this.chartData.length) {
           this.currentIndex += 7;
           this._updateChart();
         }
       },
-
+      /**
+       * Navigates backward through the paginated chart data, if previous data exists.
+       */
       onNavigateBack: function () {
         if (this.currentIndex - 7 >= 0) {
           this.currentIndex -= 7;
           this._updateChart();
         }
       },
-
+      /**
+       * Groups and formats data based on the selected time division
+       * (e.g., day, week, month, year) for the chart.
+       */
       _generateChartData: function (data, division) {
         const sales = [];
         const dateGroups = {};
@@ -146,7 +171,9 @@ sap.ui.define(
           sales: item.sales,
         }));
       },
-
+      /**
+       * Generates a key for grouping data based on the selected division (day, week, month, year).
+       */
       _getDateKey: function (date, division) {
         const d = new Date(date);
         switch (division) {
@@ -166,6 +193,9 @@ sap.ui.define(
             return d.getFullYear().toString();
         }
       },
+      /**
+       * Configures the VizFrame chart properties dynamically after the view is rendered.
+       */
       onAfterRendering: function () {
         const oVizFrame = this.getView().byId("salesVizFrame");
 

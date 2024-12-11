@@ -1,9 +1,3 @@
-/**
- * @namespace trial4.controller
- * @class
- * Controller for the details view.
- * Handles navigation to details, data fetching for a specific customer, and model binding.
- */
 sap.ui.define(
   [
     "sap/ui/core/mvc/Controller",
@@ -16,9 +10,7 @@ sap.ui.define(
 
     return Controller.extend("trial4.controller.details", {
       /**
-       * Initializes the controller.
-       * Attaches a pattern-matched event to handle route navigation to the details view.
-       * @public
+       * Initializes the controller by setting up route matching to handle dynamic data loading.
        */
       onInit: function () {
         this.getOwnerComponent()
@@ -26,20 +18,14 @@ sap.ui.define(
           .getRoute("RouteDetails")
           .attachPatternMatched(this._onObjectMatched, this);
       },
-
       /**
-       * Navigates back to the main view (RouteView1).
-       * @public
+       * Navigates back to the main view when the user presses the back button.
        */
       onPress: function () {
         this.getOwnerComponent().getRouter().navTo("RouteView1");
       },
-
       /**
-       * Handles the route pattern-matched event when navigating to the details view.
-       * Fetches customer data for the specified `Invno` and binds it to the view.
-       * @private
-       * @param {sap.ui.base.Event} oEvent - Event triggered when the route pattern matches.
+       * Handles route matching to fetch and bind customer details for the specified invoice number.
        */
       _onObjectMatched: function (oEvent) {
         const sInvno = oEvent.getParameter("arguments").Invno;
@@ -62,10 +48,7 @@ sap.ui.define(
       },
 
       /**
-       * Fetches customer data for a specific `Invno` via an AJAX request.
-       * @private
-       * @param {string} sInvno - Customer ID for the record to fetch.
-       * @returns {Promise<Object>} Resolves with customer data or rejects with an error message.
+       * Fetches customer data for the specified invoice number from the OData service.
        */
       _fetchCustomerData: function (sInvno) {
         const url = DataManager.getOdataUrl(this.getOwnerComponent());

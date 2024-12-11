@@ -1,9 +1,3 @@
-/**
- * @namespace trial4.controller
- * @class
- * Controller for editing an existing record.
- * Handles fetching record data, validating form inputs, and updating the record via an OData service.
- */
 sap.ui.define(
   [
     "sap/ui/core/mvc/Controller",
@@ -25,10 +19,7 @@ sap.ui.define(
 
     return Controller.extend("trial4.controller.EditRecord", {
       formatter: formatter,
-      /**
-       * Initializes the controller and attaches the route pattern matched event.
-       * @public
-       */
+      // Initialize the controller
       onInit: function () {
         this.getOwnerComponent()
           .getRouter()
@@ -44,13 +35,7 @@ sap.ui.define(
         today.setHours(0, 0, 0, 0); // Normalize time to midnight
         oDatePicker.setMinDate(today); // Programmatically set the minDate
       },
-
-      /**
-       * Handles the route pattern-matched event when navigating to the edit record view.
-       * Fetches record data for the specified `Invno`.
-       * @private
-       * @param {sap.ui.base.Event} oEvent - Event triggered when the route pattern matches.
-       */
+      // Handle route matching
       _onObjectMatched: function (oEvent) {
         this.sInvno = oEvent.getParameter("arguments").Invno;
 
@@ -62,12 +47,7 @@ sap.ui.define(
 
         this._fetchRecordData(this.sInvno);
       },
-
-      /**
-       * Fetches record data for a specific `Invno` and sets it to the view's model.
-       * @private
-       * @param {string} sInvno - Customer ID for the record to fetch.
-       */
+      // Fetch record data from the backend
       _fetchRecordData: function (sInvno) {
         const url = DataManager.getOdataUrl(this.getOwnerComponent());
 
@@ -88,12 +68,7 @@ sap.ui.define(
           },
         });
       },
-
-      /**
-       * Saves changes to the record by sending a PUT request to the OData service.
-       * Validates required fields before submitting.
-       * @public
-       */
+      // Save the changes to the record
       onSaveChanges: function () {
         const url = DataManager.getOdataUrl(this.getOwnerComponent());
         const csrfToken = DataManager.getToken();
@@ -124,20 +99,11 @@ sap.ui.define(
           },
         });
       },
-
-      /**
-       * Navigates back to the main view without saving.
-       * @public
-       */
+      // Cancel the edit and navigate back
       onCancel: function () {
         this.getOwnerComponent().getRouter().navTo("RouteView1");
       },
-
-      /**
-       * Retrieves an array of required input fields.
-       * @private
-       * @returns {sap.ui.core.Control[]} List of required input fields.
-       */
+      // Get the list of required fields
       _getRequiredFields: function () {
         const oView = this.getView();
         return [
@@ -149,6 +115,7 @@ sap.ui.define(
           oView.byId("_IDGenInput20"), // Currency
         ];
       },
+      // Update the gross value when net or VAT changes
       onValueChange: function () {
         const oView = this.getView();
         const net = parseFloat(oView.byId("_IDGenInput17").getValue()) || 0; // Net Value
@@ -158,14 +125,7 @@ sap.ui.define(
         // Update Gross field
         oView.byId("_IDGenInput19").setValue(gross.toFixed(2));
       },
-
-      /**
-       * Validates an array of input fields to ensure all are filled.
-       * Highlights invalid fields in red.
-       * @private
-       * @param {sap.ui.core.Control[]} aFields - List of input fields to validate.
-       * @returns {boolean} True if all fields are valid; false otherwise.
-       */
+      // Validate that all required fields are filled
       _validateFields: function (aFields) {
         let bValid = true;
         aFields.forEach((oField) => {

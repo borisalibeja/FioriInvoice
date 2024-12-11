@@ -1,9 +1,3 @@
-/**
- * @namespace trial4.controller
- * @class
- * Controller for adding a new record.
- * Handles form validation, record submission via OData, and navigation.
- */
 sap.ui.define(
   [
     "sap/ui/core/mvc/Controller",
@@ -17,25 +11,30 @@ sap.ui.define(
 
     return Controller.extend("trial4.controller.AddRecord", {
       formatter: formatter,
-
+      /**
+       * Initializes the controller by attaching route pattern matching,
+       * dynamically updating the i18n model, and setting up the currency model.
+       */
       onInit: function () {
-        
         // Attach route pattern matched to update the i18n model dynamically
         this.getOwnerComponent()
-        .getRouter()
-        .getRoute("RouteAddRecord") // Replace with the correct route name for this view
-        .attachPatternMatched(this._onRouteMatched, this);
-        
+          .getRouter()
+          .getRoute("RouteAddRecord")
+          .attachPatternMatched(this._onRouteMatched, this);
+
         // Load currency data from JSON file
         const oCurrencyModel = new sap.ui.model.json.JSONModel();
         oCurrencyModel.loadData("model/currency.json");
         this.getView().setModel(oCurrencyModel, "currencyModel");
-        
+
         const oDatePicker = this.byId("_IDGenDatePicker");
         const today = new Date();
         today.setHours(0, 0, 0, 0); // Normalize time to midnight
         oDatePicker.setMinDate(today); // Programmatically set the minDate
       },
+      /**
+       * Handles route matching to refresh the i18n model when the route is matched.
+       */
       _onRouteMatched: function () {
         // Refresh the i18n model when this route is matched
         let oResourceModel = sap.ui.getCore().getModel("i18n");
@@ -43,12 +42,9 @@ sap.ui.define(
           this.getView().setModel(oResourceModel, "i18n");
         }
       },
-
       /**
-       * Handles the save operation for adding a new record.
-       * Validates input fields, retrieves the CSRF token, and sends a POST request.
-       * On success, clears the inputs, navigates back, and publishes an event.
-       * @public
+       * Saves a new record by validating required fields and sending a POST request.
+       * Updates the view and navigates to another route upon success.
        */
       onSave: function () {
         const url = DataManager.getOdataUrl(this.getOwnerComponent());
@@ -84,11 +80,6 @@ sap.ui.define(
         });
       },
 
-      /**
-       * Retrieves an array of required input fields.
-       * @private
-       * @returns {sap.ui.core.Control[]} List of required input fields.
-       */
       _getRequiredFields: function () {
         const oView = this.getView();
         return [
@@ -101,13 +92,6 @@ sap.ui.define(
         ];
       },
 
-      /**
-       * Validates an array of input fields to ensure all are filled.
-       * Highlights invalid fields in red.
-       * @private
-       * @param {sap.ui.core.Control[]} aFields - List of input fields to validate.
-       * @returns {boolean} True if all fields are valid; false otherwise.
-       */
       _validateFields: function (aFields) {
         let bValid = true;
         aFields.forEach((oField) => {
@@ -117,11 +101,8 @@ sap.ui.define(
         });
         return bValid;
       },
-
       /**
-       * Retrieves the form data for the new record.
-       * @private
-       * @returns {Object} Data object for the new record.
+       * Function for fetching the input data
        */
       _getRecordData: function () {
         const oView = this.getView();
@@ -146,11 +127,10 @@ sap.ui.define(
           Curr: oView.byId("_IDGenInput11").getSelectedKey(),
         };
       },
-
       /**
-       * Clears all input fields in the view.
-       * @private
+       * Function to clear all the inputs after on save or on cancel action
        */
+
       _clearInputs: function () {
         const aInputIds = [
           "_IDGenDatePicker",
@@ -168,6 +148,9 @@ sap.ui.define(
         ];
         aInputIds.forEach((sId) => this.byId(sId).setValue(""));
       },
+      /**
+       * Dynamically recalculates and updates the gross value based on net and VAT values.
+       */
       onValueChange: function () {
         const oView = this.getView();
         const net = parseFloat(oView.byId("_IDGenInput8").getValue()) || 0; // Net Value
@@ -177,10 +160,8 @@ sap.ui.define(
         // Update Gross field
         oView.byId("_IDGenInput10").setValue(gross.toFixed(2));
       },
-
       /**
-       * Navigates back to the main view without saving.
-       * @public
+       * Handles cancel action by navigating back to the main view.
        */
       onCancel: function () {
         this.getOwnerComponent().getRouter().navTo("RouteView1");
