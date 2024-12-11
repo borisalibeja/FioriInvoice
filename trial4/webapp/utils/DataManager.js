@@ -18,7 +18,7 @@ sap.ui.define([], function () {
             const appId = component.getManifestEntry("/sap.app/id");
             const appPath = appId.replaceAll(".", "/");
             const appModulePath = jQuery.sap.getModulePath(appPath);
-            url = `${appModulePath}/invoice/zfiori_invoice_typeSet`;
+            url = `${appModulePath}/odata/zfiori_invoice_typeSet`;
             console.log("URL generated and saved");
             return url;
 
